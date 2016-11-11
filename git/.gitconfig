@@ -1,0 +1,13 @@
+[user]
+	email = andrew.barbarello@outlook.com
+	name = Andrew Barbarello
+[diff]
+  tool = meld
+[difftool]
+	prompt = false
+[merge]
+	tool = meldmerge
+[mergetool "meldmerge"]
+  cmd = meld $LOCAL $BASE $REMOTE --auto-merge --output $MERGED
+[push]
+	default = simple
