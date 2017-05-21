@@ -8,4 +8,4 @@
 # gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/ custom-command "$HOME/launch-tmux.sh"
 # gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$PROFILE_ID/ use-custom-command true
 
-! tmux list-sessions && tmux -2 new-session -A -s main || _trap_exit() { tmux kill-session -t $$; }; trap _trap_exit EXIT; tmux -2 new-session -s $$ -t main \; new-window
+! tmux list-sessions && tmux -2 new-session -A -s main || (_trap_exit() { tmux kill-session -t $$; }; trap _trap_exit EXIT; tmux -2 new-session -s $$ -t main \; new-window)
