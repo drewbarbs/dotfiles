@@ -1,0 +1,17 @@
+!fix modifier on mbp, where I swap super and alt
+URxvt.modifier: mod1
+
+URxvt.termName: xterm-256color
+URxvt.loginShell: true
+
+URxvt.scrollTtyKeypress: true
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: false
+URxvt.scrollBar: false
+
+URxvt.font: xft:Monospace:size=10
+URxvt.boldFont: xft:Monospace:bold:size=10
+
+URxvt.letterSpace: -0.5
+
+#include "tango.Xresources"
