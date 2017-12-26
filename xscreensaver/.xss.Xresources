@@ -1,0 +1,38 @@
+! fonts from default
+xscreensaver.Dialog.headingFont: *-helvetica-bold-r-*-*-*-180-*-*-*-iso8859-1
+xscreensaver.Dialog.bodyFont: *-helvetica-bold-r-*-*-*-140-*-*-*-iso8859-1
+xscreensaver.Dialog.labelFont: *-helvetica-bold-r-*-*-*-140-*-*-*-iso8859-1
+xscreensaver.Dialog.unameFont: *-helvetica-bold-r-*-*-*-120-*-*-*-iso8859-1
+xscreensaver.Dialog.buttonFont: *-helvetica-bold-r-*-*-*-140-*-*-*-iso8859-1
+xscreensaver.Dialog.dateFont: *-helvetica-medium-r-*-*-*-80-*-*-*-iso8859-1
+
+! disable the "New Login" button
+xscreensaver.newLoginCommand:
+
+! Helvetica asterisks look terrible.
+xscreensaver.passwd.passwdFont: *-courier-medium-r-*-*-*-140-*-*-*-iso8859-1
+
+! Dialog color theme from https://askubuntu.com/questions/85109/how-do-i-theme-the-xscreensaver-unlock-screen
+
+!general dialog box (affects main hostname, username, password text)
+xscreensaver.Dialog.foreground:         #ffffff
+xscreensaver.Dialog.background:         #111111
+xscreensaver.Dialog.topShadowColor:     #111111
+xscreensaver.Dialog.bottomShadowColor:  #111111
+xscreensaver.Dialog.Button.foreground:  #666666
+xscreensaver.Dialog.Button.background:  #ffffff
+
+!username/password input box and date text colour
+xscreensaver.Dialog.text.foreground:    #666666
+xscreensaver.Dialog.text.background:    #ffffff
+xscreensaver.Dialog.internalBorderWidth:24
+xscreensaver.Dialog.borderWidth:        20
+xscreensaver.Dialog.shadowThickness:    2
+
+!timeout bar (background is actually determined by Dialog.text.background)
+xscreensaver.passwd.thermometer.foreground:  #ff0000
+xscreensaver.passwd.thermometer.background:  #000000
+xscreensaver.passwd.thermometer.width:       8
+
+!datestamp format--see the strftime(3) manual page for details
+xscreensaver.dateFormat:    %I:%M%P %a %b %d, %Y
