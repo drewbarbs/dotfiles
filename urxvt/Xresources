@@ -9,9 +9,9 @@ URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: false
 URxvt.scrollBar: false
 
-URxvt.font: xft:Monospace:size=10
-URxvt.boldFont: xft:Monospace:bold:size=10
+URxvt.font: xft:Monospace:size=11
+URxvt.boldFont: xft:Monospace:bold:size=11
 
-URxvt.letterSpace: -0.5
+URxvt.letterSpace: -1
 
 #include "tango.Xresources"
