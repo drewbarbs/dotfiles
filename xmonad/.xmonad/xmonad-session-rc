@@ -1,0 +1,31 @@
+/usr/bin/xrdb -merge ~/dotfiles/urxvt/Xresources
+/usr/bin/xrdb -merge ~/dotfiles/Xft.Xresources
+/usr/bin/xrdb -merge ~/dotfiles/xscreensaver/.xss.Xresources
+
+# Use xmodmap to set capslock to ctrl, etc
+if [[ -f ~/.Xmodmap ]]; then
+    /usr/bin/xmodmap ~/.Xmodmap
+fi
+
+# Use dex to kickoff the autostart files for variety, dropbox, and
+# redshift. Though dropbox could be started with a systemd unit, this
+# has the benefit of launching in the current *session* (so DISPLAY is
+# set). This is especially important for variety
+if [[ -d ~/.config/autostart ]]; then
+    /usr/bin/dex ~/.config/autostart/*
+fi
+
+eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+export SSH_AUTH_SOCK
+
+# TODO: on arch, execute /usr/bin/gnome-settings-daemon/gsd-xsettings
+# https://bugs.archlinux.org/task/53800
+if [[ -x /usr/bin/gnome-settings-daemon ]]; then
+    /usr/bin/gnome-settings-daemon &
+fi
+
+/usr/bin/xscreensaver -no-splash &
+/usr/bin/xss-lock -- /usr/bin/xscreensaver-command -lock &
+
+# Set the pointer cursor
+/usr/bin/xsetroot -cursor_name left_ptr
