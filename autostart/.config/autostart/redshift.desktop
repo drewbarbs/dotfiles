@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Redshift
+Comment=
+Exec=/usr/bin/redshift -l geoclue2
+Terminal=false
+Type=Application
+
