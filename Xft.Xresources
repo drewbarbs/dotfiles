@@ -1,3 +1,5 @@
+! -*- mode: conf-xdefaults -*-
+
 ! xft
 Xft.antialias: true
 Xft.dpi: 96

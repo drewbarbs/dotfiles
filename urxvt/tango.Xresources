@@ -1,3 +1,5 @@
+! -*- mode: conf-xdefaults; -*-
+
 ! tango light from https://github.com/johntyree/dotfiles/blob/master/Xresources.d/urxvt-colours-tango-light
 URxvt.background: #FFFFFF
 URxvt.foreground: #000000

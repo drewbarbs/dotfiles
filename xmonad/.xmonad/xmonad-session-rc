@@ -1,3 +1,4 @@
+# -*- mode: sh; -*-
 /usr/bin/xrdb -merge ~/dotfiles/urxvt/Xresources
 /usr/bin/xrdb -merge ~/dotfiles/Xft.Xresources
 /usr/bin/xrdb -merge ~/dotfiles/xscreensaver/.xss.Xresources

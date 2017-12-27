@@ -1,3 +1,5 @@
+! -*- mode: conf-xdefaults; -*-
+
 ! fonts from default
 xscreensaver.Dialog.headingFont: *-helvetica-bold-r-*-*-*-180-*-*-*-iso8859-1
 xscreensaver.Dialog.bodyFont: *-helvetica-bold-r-*-*-*-140-*-*-*-iso8859-1
