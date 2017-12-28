@@ -11,7 +11,8 @@ conf = ewmh def
   , startupHook = mappend (startupHook def) setFullscreenSupported
   }
   `additionalKeysP`
-  [ ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
+  [ ("M-S-l", spawn "xscreensaver-command -lock")
+  , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
   , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+")
   , ("<XF86AudioMute>", spawn "amixer set Master 0%")
   , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 10")
