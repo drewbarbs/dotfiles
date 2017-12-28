@@ -29,5 +29,7 @@ fi
 /usr/bin/xss-lock -- /usr/bin/xscreensaver-command -lock &
 ~/dotfiles/xscreensaver/listen_for_lock.py &
 
+xfce4-power-manager
+
 # Set the pointer cursor
 /usr/bin/xsetroot -cursor_name left_ptr

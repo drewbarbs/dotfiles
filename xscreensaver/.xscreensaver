@@ -1,4 +1,5 @@
-timeout:	0:30:00
+# Have xfce4-power-manager turn display off at 30 minutes
+timeout:	0:25:00
 cycle:		0:10:00
 lock:		True
 lockTimeout:	0:00:00
@@ -20,11 +21,12 @@ fadeTicks:	20
 captureStderr:	True
 ignoreUninstalledPrograms:False
 font:		*-medium-r-*-140-*-m-*
-dpmsEnabled:	True
+# Use xfce4-power-manager to handle display power
+dpmsEnabled:	False
 dpmsQuickOff:	False
-dpmsStandby:	0:35:00
-dpmsSuspend:	1:00:00
-dpmsOff:	4:00:00
+dpmsStandby:	0:00:00
+dpmsSuspend:	0:00:00
+dpmsOff:	0:00:00
 grabDesktopImages:  False
 grabVideoFrames:    False
 chooseRandomImages: False
