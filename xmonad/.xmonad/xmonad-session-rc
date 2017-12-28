@@ -27,6 +27,7 @@ fi
 
 /usr/bin/xscreensaver -no-splash &
 /usr/bin/xss-lock -- /usr/bin/xscreensaver-command -lock &
+~/dotfiles/xscreensaver/listen_for_lock.py &
 
 # Set the pointer cursor
 /usr/bin/xsetroot -cursor_name left_ptr
