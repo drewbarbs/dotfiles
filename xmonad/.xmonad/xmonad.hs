@@ -1,10 +1,12 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Util.EZConfig (additionalKeysP)
 
-conf = def
+conf = ewmh def
   { terminal = "urxvt -e ~/launch-tmux.sh"
   , modMask = mod4Mask
+  , handleEventHook = mappend (handleEventHook def) fullscreenEventHook
   }
   `additionalKeysP`
   [ ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
