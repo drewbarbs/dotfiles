@@ -22,7 +22,12 @@ conf = ewmh $ fullscreenSupport $ def
 
 -- xmobar config
 main :: IO ()
-main = xmonad =<< statusBar "xmobar" xmobarPP (const (modMask conf, xK_b)) conf
+main = xmonad =<< statusBar "xmobar"
+  xmobarPP
+  { ppTitle = xmobarColor "#FFB6B0" "" . shorten 40
+  , ppCurrent = xmobarColor "#CEFFAC" "" . wrap "[" "]"
+  , ppSep = "   "
+  } (const (modMask conf, xK_b)) conf
 
 help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:"
