@@ -9,6 +9,7 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                                          , "--normal", "green"
                                          , "--high", "red"
                                          , "--low", "lightblue"] 36000
+                    , Run Volume "default" "Master" ["-t", "Vol: <volume>%"] 2
                     , Run Cpu [ "-m", "2"
                               , "-L", "50"
                               , "-H", "75"
@@ -32,5 +33,5 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% | %dynnetwork% | <fc=#ee9a00>%date%</fc> | %KBWI%"
+       , template = "%StdinReader%}{%default:Master% | %cpu% %memory% %dynnetwork% | <fc=#ee9a00>%date%</fc> | %KBWI%"
        }
