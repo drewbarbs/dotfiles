@@ -28,7 +28,7 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                                      , "-H", "200000" -- 200KB/s
                                      , "-h", "#FFB6B0"
                                      , "-n", "#FFFFCC"] 10
-                    , Run Date "%a %b %_d %l:%M" "date" 10
+                    , Run Date "%a %b %_d %l:%M%P" "date" 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
