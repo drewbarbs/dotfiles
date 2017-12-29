@@ -1,0 +1,36 @@
+-- -*- mode: haskell -*-
+Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
+       , bgColor = "black"
+       , fgColor = "gray"
+       , position = Top
+       , commands = [ Run Weather "KBWI" [ "-t", "<stationState>: <tempF>°F"
+                                         , "-L", "64"
+                                         , "-H", "77"
+                                         , "--normal", "green"
+                                         , "--high", "red"
+                                         , "--low", "lightblue"] 36000
+                    , Run Cpu [ "-m", "2"
+                              , "-L", "50"
+                              , "-H", "75"
+                              , "-n", "#FFFFCC"
+                              , "-h", "#FFB6B0"] 10
+                    , Run Memory [ "-t", "Mem: <usedratio>%"
+                                 , "-L", "50"
+                                 , "-H", "75"
+                                 , "-n", "#FFFFCC"
+                                 , "-h", "#FFB6B0"] 10
+                    , Run DynNetwork [ "-t", "Net: <rx>, <tx>"
+                                     , "-w", "6"
+                                     , "-c", "·"
+                                     , "-S", "True"
+                                     , "-L", "10000" -- 10KB/s
+                                     , "-H", "200000" -- 200KB/s
+                                     , "-h", "#FFB6B0"
+                                     , "-n", "#FFFFCC"] 10
+                    , Run Date "%a %b %_d %l:%M" "date" 10
+                    , Run StdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%StdinReader% }{ %cpu% | %memory% | %dynnetwork% | <fc=#ee9a00>%date%</fc> | %KBWI%"
+       }

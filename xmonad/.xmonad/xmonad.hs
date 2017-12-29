@@ -5,6 +5,7 @@ import XMonad.Layout.Fullscreen (fullscreenSupport)
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.WindowProperties (getProp32)
 
+-- XMonad configuration *without* xmobar-related items
 conf = ewmh $ fullscreenSupport $ def
   { terminal = "urxvt -e ~/launch-tmux.sh"
   , modMask = mod4Mask
@@ -19,7 +20,9 @@ conf = ewmh $ fullscreenSupport $ def
   , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 10")
   , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 10")]
 
-main = xmonad =<< xmobar conf
+-- xmobar config
+main :: IO ()
+main = xmonad =<< statusBar "xmobar" xmobarPP (const (modMask conf, xK_b)) conf
 
 help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:"
