@@ -1,13 +1,13 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Layout.Fullscreen (fullscreenSupport)
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.WindowProperties (getProp32)
 
-conf = ewmh def
+conf = ewmh $ fullscreenSupport $ def
   { terminal = "urxvt -e ~/launch-tmux.sh"
   , modMask = mod4Mask
-  , handleEventHook = mappend (handleEventHook def) fullscreenEventHook
   , startupHook = mappend (startupHook def) setFullscreenSupported
   }
   `additionalKeysP`
