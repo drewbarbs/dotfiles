@@ -16,7 +16,7 @@ conf = ewmh $ fullscreenSupport $ def
   , ("M-S-/", spawn ("echo " ++ show help ++ " | xmessage -file -"))
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
   , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+")
-  , ("<XF86AudioMute>", spawn "amixer set Master 0%")
+  , ("<XF86AudioMute>", spawn "amixer set Master toggle")
   , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 10")
   , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 10")]
 
