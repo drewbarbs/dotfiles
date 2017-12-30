@@ -1,6 +1,7 @@
 -- -*- mode: haskell -*-
 Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
        , additionalFonts = ["xft:VL Gothic:size=10"]
+       , iconRoot = ".config/xmobar/icons"
        , bgColor = "black"
        , fgColor = "gray"
        , position = Top
@@ -17,17 +18,18 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                                , "--onc", "#CEFFAC"
                                , "--off", "<fn=1>🔇</fn>"
                                , "--offc", "#FFB6B0"] 2
-                    , Run Cpu [ "-m", "2"
+                    , Run Cpu [ "-t", "<icon=cpu.xbm/> <total>%"
+                              , "-m", "2"
                               , "-L", "50"
                               , "-H", "75"
                               , "-n", "#FFFFCC"
                               , "-h", "#FFB6B0"] 10
-                    , Run Memory [ "-t", "Mem: <usedratio>%"
+                    , Run Memory [ "-t", "<icon=mem.xbm/> <usedratio>%"
                                  , "-L", "50"
                                  , "-H", "75"
                                  , "-n", "#FFFFCC"
                                  , "-h", "#FFB6B0"] 10
-                    , Run DynNetwork [ "-t", "Net: <rx>, <tx>"
+                    , Run DynNetwork [ "-t", "<icon=net_up_03.xbm/><rx><icon=net_down_03.xbm/><tx>"
                                      , "-w", "6"
                                      , "-c", "·"
                                      , "-S", "True"
@@ -40,5 +42,5 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader%}{%default:Master% | %cpu% %memory% %dynnetwork% | <fc=#ee9a00>%date%</fc> | %KBWI%"
+       , template = "%StdinReader%}{%default:Master% | %cpu%%memory%%dynnetwork% | <fc=#ee9a00>%date%</fc> | %KBWI%"
        }
