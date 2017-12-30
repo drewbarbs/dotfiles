@@ -5,7 +5,7 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "gray"
        , position = Top
-       , commands = [ Run Weather "KBWI" [ "-t", "<stationState>: <tempF>°F"
+       , commands = [ Run Weather "KBWI" [ "-t", "<tempF>°F <skyCondition>"
                                          , "-L", "64"
                                          , "-H", "77"
                                          , "--normal", "green"
