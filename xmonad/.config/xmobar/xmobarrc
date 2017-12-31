@@ -42,5 +42,5 @@ Config { font = "xft:Terminus:size=10"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader%}{%default:Master% | %cpu%%memory%%dynnetwork% | <fc=#ee9a00>%date%</fc> | %KBWI%"
+       , template = "%StdinReader%}{%default:Master% | %cpu%%memory%%dynnetwork% | <fc=#ee9a00>%date%</fc> | %KBWI% | "
        }
