@@ -33,8 +33,8 @@ Config { font = "xft:Terminus:size=10"
                                      , "-w", "6"
                                      , "-c", "·"
                                      , "-S", "True"
-                                     , "-L", "10000" -- 10KB/s
-                                     , "-H", "200000" -- 200KB/s
+                                     , "-L", "500000" -- 500KB/s
+                                     , "-H", "1000000" -- 1000KB/s
                                      , "-h", "#FFB6B0"
                                      , "-n", "#FFFFCC"] 10
                     , Run Date "%a %b %_d %l:%M%P" "date" 10
