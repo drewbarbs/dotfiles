@@ -1,6 +1,8 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Hooks.ManageDocks (docksStartupHook)
+import XMonad.Operations (rescreen)
 import XMonad.Layout.Fullscreen (fullscreenSupport)
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.WindowProperties (getProp32)
@@ -14,6 +16,8 @@ conf = ewmh $ fullscreenSupport $ def
   `additionalKeysP`
   [ ("M-S-l", spawn "xscreensaver-command -lock")
   , ("M-S-/", spawn ("echo " ++ show help ++ " | xmessage -file -"))
+  , ("M-x r", rescreen)
+  , ("M-x d", docksStartupHook)
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
   , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+")
   , ("<XF86AudioMute>", spawn "amixer set Master toggle")
