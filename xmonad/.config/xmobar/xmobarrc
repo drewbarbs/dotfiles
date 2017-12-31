@@ -4,7 +4,7 @@ Config { font = "xft:Terminus:size=8"
        , iconRoot = ".config/xmobar/icons"
        , bgColor = "black"
        , fgColor = "gray"
-       , position = Top
+       , position = TopSize L 95 16
        , commands = [ Run Weather "KBWI" [ "-t", "<tempF>°F <skyCondition>"
                                          , "-L", "64"
                                          , "-H", "77"

@@ -8,14 +8,6 @@ if [[ -f ~/.Xmodmap ]]; then
     /usr/bin/xmodmap ~/.Xmodmap
 fi
 
-# Use dex to kickoff the autostart files for variety, dropbox, and
-# redshift. Though dropbox could be started with a systemd unit, this
-# has the benefit of launching in the current *session* (so DISPLAY is
-# set). This is especially important for variety
-if [[ -d ~/.config/autostart ]]; then
-    /usr/bin/dex ~/.config/autostart/*
-fi
-
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 
@@ -28,6 +20,17 @@ fi
 /usr/bin/xscreensaver -no-splash &
 /usr/bin/xss-lock -- /usr/bin/xscreensaver-command -lock &
 ~/dotfiles/xscreensaver/listen_for_lock.py &
+
+# kickoff trayer
+~/dotfiles/xmonad/.xmonad/tray.sh &
+
+# Use dex to kickoff the autostart files for variety, dropbox, and
+# redshift. Though dropbox could be started with a systemd unit, this
+# has the benefit of launching in the current *session* (so DISPLAY is
+# set). This is especially important for variety
+if [[ -d ~/.config/autostart ]]; then
+    /usr/bin/dex ~/.config/autostart/*
+fi
 
 xfce4-power-manager
 
