@@ -29,7 +29,7 @@ Config { font = "xft:Terminus:size=8"
                                  , "-H", "75"
                                  , "-n", "#FFFFCC"
                                  , "-h", "#FFB6B0"] 10
-                    , Run DynNetwork [ "-t", "<icon=net_up_03.xbm/><rx><icon=net_down_03.xbm/><tx>"
+                    , Run DynNetwork [ "-t", "<icon=net_down_03.xbm/><rx><icon=net_up_03.xbm/><tx>"
                                      , "-w", "6"
                                      , "-c", "·"
                                      , "-S", "True"
