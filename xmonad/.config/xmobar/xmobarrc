@@ -1,10 +1,10 @@
 -- -*- mode: haskell -*-
-Config { font = "xft:Terminus:size=8"
+Config { font = "xft:Terminus:size=10"
        , additionalFonts = ["xft:VL Gothic:size=10"]
        , iconRoot = ".config/xmobar/icons"
        , bgColor = "black"
        , fgColor = "gray"
-       , position = TopSize L 95 16
+       , position = TopSize L 95 18
        , commands = [ Run Weather "KBWI" [ "-t", "<tempF>°F <skyCondition>"
                                          , "-L", "64"
                                          , "-H", "77"
