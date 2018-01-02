@@ -11,10 +11,12 @@ fi
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 
-# TODO: on arch, execute /usr/bin/gnome-settings-daemon/gsd-xsettings
-# https://bugs.archlinux.org/task/53800
 if [[ -x /usr/bin/gnome-settings-daemon ]]; then
     /usr/bin/gnome-settings-daemon &
+elif [[ -x /usr/lib/gnome-settings-daemon/gsd-xsettings ]]; then
+    # newer gnome broke gnome settings daemon out into modular exe's
+    # https://bugs.archlinux.org/task/53800
+    /usr/lib/gnome-settings-daemon/gsd-xsettings &
 fi
 
 /usr/bin/xscreensaver -no-splash &
