@@ -1,6 +1,5 @@
 -- -*- mode: haskell -*-
 Config { font = "xft:Terminus:size=10"
-       , additionalFonts = ["xft:VL Gothic:size=10"]
        , iconRoot = ".config/xmobar/icons"
        , bgColor = "black"
        , fgColor = "gray"

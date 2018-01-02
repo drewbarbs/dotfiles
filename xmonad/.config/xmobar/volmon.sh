@@ -5,9 +5,9 @@ trap "kill 0" EXIT
 
 print_speaker() {
     if [[ "$1" == "on" ]]; then
-        echo -n "<fc=#CEFFAC><fn=1>🔊</fn></fc>"
+        echo -n "<fc=#CEFFAC><icon=spkr_01.xbm/></fc>"
     else
-        echo -n "<fc=#FFB6B0><fn=1>🔇</fn></fc>"
+        echo -n "<fc=#FFB6B0><icon=spkr_mute.xbm/></fc>"
     fi
 }
 
