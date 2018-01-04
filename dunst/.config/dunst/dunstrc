@@ -9,7 +9,7 @@
     show_age_threshold = 60
     word_wrap = yes
     ignore_newline = no
-    geometry = "300x4-20+20"
+    geometry = "400x4-20+20"
     transparency = 0
     idle_threshold = 120
     monitor = 0
@@ -19,7 +19,7 @@
     separator_height = 2
     padding = 6
     horizontal_padding = 6
-    separator_color = foreground
+    separator_color = frame
     startup_notification = false
 
     # Align icons left/right/off
@@ -39,14 +39,14 @@
     context = mod4+shift+period
 
 [urgency_low]
-    frame_color = "#3B7C87"
-    foreground = "#3B7C87"
+    frame_color = "#5B8234"
+    foreground = "#5B8234"
     background = "#191311"
     timeout = 5
 
 [urgency_normal]
-    frame_color = "#5B8234"
-    foreground = "#5B8234"
+    frame_color = "#3B7C87"
+    foreground = "#3B7C87"
     background = "#191311"
     timeout = 20
 
