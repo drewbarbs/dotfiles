@@ -15,7 +15,7 @@ conf = ewmh $ fullscreenSupport $ def
   }
   `additionalKeysP`
   [ ("M-S-l", spawn "xscreensaver-command -lock")
-  , ("M-S-/", spawn ("echo " ++ show help ++ " | xmessage -file -"))
+  , ("M-S-/", spawn ("echo -e " ++ show help ++ " | xmessage -file -"))
   , ("M-x r", rescreen)
   , ("M-x d", docksStartupHook)
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
