@@ -1,4 +1,5 @@
 ! -*- mode: conf-xdefaults -*-
+! font configuration, merged into X resources database in xmonad-session-rc
 
 ! xft
 Xft.antialias: true
