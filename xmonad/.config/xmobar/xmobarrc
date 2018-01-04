@@ -11,6 +11,7 @@ Config { font = "xft:Terminus:size=10"
                                          , "--high", "red"
                                          , "--low", "lightblue"] 36000
                     , Run CommandReader "$HOME/.config/xmobar/volmon.sh" "vmon"
+                    , Run CommandReader "$HOME/.config/xmobar/arch-updates-mon.py" "archupdates"
                     , Run Cpu [ "-t", "<icon=cpu.xbm/> <total>%"
                               , "-m", "2"
                               , "-L", "50"
@@ -35,5 +36,5 @@ Config { font = "xft:Terminus:size=10"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader%}{%vmon% | %cpu%%memory%%dynnetwork% | <fc=#ee9a00>%date%</fc> | %KBWI% | "
+       , template = "%StdinReader%} <fc=#ee9a00>%date%</fc> {%vmon% | %archupdates% | %cpu%%memory%%dynnetwork% | %KBWI% | "
        }
