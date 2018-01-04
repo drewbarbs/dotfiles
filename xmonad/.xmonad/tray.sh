@@ -15,6 +15,7 @@ if [[ "$?" -eq 0 ]]; then
     trayer --edge top --align right \
            --monitor $monitor \
            -l \
+           --iconspacing 10 \
            --widthtype pixel --width $widthPx \
            --heighttype pixel --height $heightPx \
            --transparent true \
