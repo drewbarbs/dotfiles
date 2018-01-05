@@ -18,6 +18,8 @@ gi.require_version('Gio', '2.0')
 from gi.repository import GLib
 from gi.repository import Gio
 
+from stdout_watch import watch_for_stdout_close
+
 CHECK_LOCK = Lock()
 CHECK_CMD = '/usr/bin/checkupdates'
 CHECK_PERIOD = timedelta(hours=1)
@@ -57,13 +59,8 @@ monitor.connect('changed', check_for_updates)
 atexit.register(lambda: monitor.cancel())
 
 ml = GLib.MainLoop()
-def watch_for_stdout_close():
-    poller = select.poll()
-    poller.register(sys.stdout, select.POLLERR)
-    poller.poll()
-    ml.quit()
 
-stdout_watcher = Thread(target=watch_for_stdout_close)
+stdout_watcher = Thread(target=watch_for_stdout_close, args=(lambda: ml.quit(),))
 stdout_watcher.daemon= True
 stdout_watcher.start()
 
