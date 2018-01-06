@@ -23,9 +23,6 @@ fi
 /usr/bin/xss-lock -- /usr/bin/xscreensaver-command -lock &
 ~/dotfiles/xscreensaver/listen_for_lock.py &
 
-# kickoff trayer
-~/dotfiles/xmonad/.xmonad/tray.sh &
-
 # Use dex to kickoff the autostart files for variety, dropbox, and
 # redshift. Though dropbox could be started with a systemd unit, this
 # has the benefit of launching in the current *session* (so DISPLAY is

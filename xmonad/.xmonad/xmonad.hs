@@ -1,11 +1,12 @@
 import XMonad
-import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops (ewmh)
-import XMonad.Hooks.ManageDocks (docksStartupHook)
+import XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
 import XMonad.Operations (rescreen)
 import XMonad.Layout.Fullscreen (fullscreenSupport)
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.WindowProperties (getProp32)
+
+import StatusBar
 
 -- XMonad configuration *without* xmobar-related items
 conf = ewmh $ fullscreenSupport $ def
@@ -16,6 +17,8 @@ conf = ewmh $ fullscreenSupport $ def
   `additionalKeysP`
   [ ("M-S-l", spawn "xscreensaver-command -lock")
   , ("M-S-/", spawn ("echo -e " ++ show help ++ " | xmessage -file -"))
+  , ("M-b", sendMessage ToggleStruts)
+  , ("M-S-b", spawn "killall -s SIGUSR1 xmobar")
   , ("M-x r", rescreen)
   , ("M-x d", docksStartupHook)
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
@@ -25,14 +28,8 @@ conf = ewmh $ fullscreenSupport $ def
   , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 10")
   , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 10")]
 
--- xmobar config
 main :: IO ()
-main = xmonad =<< statusBar "xmobar"
-  xmobarPP
-  { ppTitle = xmobarColor "#FFB6B0" "" . shorten 40
-  , ppCurrent = xmobarColor "#CEFFAC" "" . wrap "[" "]"
-  , ppSep = "   "
-  } (const (modMask conf, xK_b)) conf
+main = xmonad =<< myStatusBar conf
 
 help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:"
