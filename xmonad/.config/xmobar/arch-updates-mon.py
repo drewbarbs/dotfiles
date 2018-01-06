@@ -35,7 +35,8 @@ def check_for_updates(*args):
         output = output_bytes.decode('utf8')
         if output:
             n_avail = len(output.split('\n')) - 1
-            print('<fc=#CEFFAC><icon=arch-updates-symbolic.xbm/></fc> {}'.format(n_avail))
+            print(("<action=`bash -c 'zenity --text-info --filename=<(checkupdates)'` button=1>"
+                   "<fc=#CEFFAC><icon=arch-updates-symbolic.xbm/></fc> {}</action>").format(n_avail))
         else:
             print('<icon=arch-uptodate-symbolic.xbm/>')
     sys.stdout.flush()
