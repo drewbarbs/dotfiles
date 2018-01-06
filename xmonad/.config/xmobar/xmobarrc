@@ -36,5 +36,5 @@ Config { font = "xft:Terminus:size=10"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader%} <fc=#ee9a00>%date%</fc> {%vmon% | %archupdates% | %cpu%%memory%%dynnetwork% | %KBWI% | "
+       , template = "%StdinReader%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {%vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%KBWI%</action> | "
        }

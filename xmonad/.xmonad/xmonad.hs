@@ -1,6 +1,8 @@
 import XMonad
+
 import XMonad.Hooks.EwmhDesktops (ewmh)
 import XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
+import XMonad.Hooks.Place
 import XMonad.Operations (rescreen)
 import XMonad.Layout.Fullscreen (fullscreenSupport)
 import XMonad.Util.EZConfig (additionalKeysP)
@@ -8,9 +10,23 @@ import XMonad.Util.WindowProperties (getProp32)
 
 import StatusBar
 
+myManageHook :: ManageHook
+myManageHook = composeAll
+  [ appName =? "gnome-calendar" --> floatRelative 0.5
+  , appName =? "zenity" --> floatRelative 0.5
+  , appName =? "gnome-system-monitor" --> floatRelative 0.9
+  , appName =? "org.gnome.Weather.Application" --> floatRelative 1
+  ]
+  where
+    -- float the window, place it under the mouse where x controls how
+    -- far across the top of the window (0 = left corner, 1 = right
+    -- corner) the mouse pointer should be located
+    floatRelative x = (placeHook $ inBounds (underMouse (x, 0.1))) <+> doFloat
+
 -- XMonad configuration *without* xmobar-related items
 conf = ewmh $ fullscreenSupport $ def
   { terminal = "urxvt -e ~/launch-tmux.sh"
+  , manageHook = myManageHook <+> (manageHook def)
   , modMask = mod4Mask
   , startupHook = mappend (startupHook def) setFullscreenSupported
   }
