@@ -53,7 +53,7 @@ help :: String
 help = unlines ["The default modifier key is 'alt'. Default keybindings:"
     , ""
     , "-- launching and killing programs"
-    , "mod-Shift-Enter  Launch xterminal"
+    , "mod-Shift-Enter  Launch terminal window"
     , "mod-p            Launch dmenu"
     , "mod-Shift-p      Launch gmrun"
     , "mod-Shift-c      Close/kill the focused window"
@@ -105,7 +105,13 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:"
     , "mod-grave     Show notification from dunst history"
     , "mod-Shift-.   Show dunst notification context menu"
     , ""
-    , "mod-Shift-l   Lock screen with xscreensaver"]
+    , "mod-Shift-b   Cycle statusbar to the next monitor"
+    , ""
+    , "mod-Shift-l   Lock screen with xscreensaver"
+    , ""
+    , "-- Debug"
+    , "mod-x r       xmonad \"rescreen\""
+    , "mod-x d       recompute dock struts"]
 
 -- Add _NET_WM_STATE_FULLSCREEN to the _NET_SUPPORTED property of the
 -- root window to advertise support for it (if not already present).
