@@ -33,5 +33,7 @@ fi
 
 xfce4-power-manager
 
+/usr/bin/compton -b -o 0.0 -C -G --backend glx --vsync opengl-swc
+
 # Set the pointer cursor
 /usr/bin/xsetroot -cursor_name left_ptr
