@@ -1,10 +1,10 @@
 import XMonad
 
-import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Layout.NoBorders (smartBorders)
+import qualified XMonad.Hooks.EwmhDesktops as EWMH
 import XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
-import XMonad.Hooks.Place
+import XMonad.Hooks.Place (inBounds, placeHook, underMouse)
 import XMonad.Operations (rescreen)
-import XMonad.Layout.Fullscreen (fullscreenSupport)
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.WindowProperties (getProp32)
 
@@ -24,11 +24,13 @@ myManageHook = composeAll
     floatRelative x = (placeHook $ inBounds (underMouse (x, 0.1))) <+> doFloat
 
 -- XMonad configuration *without* xmobar-related items
-conf = ewmh $ fullscreenSupport $ def
+conf = EWMH.ewmh $ def
   { terminal = "urxvt -e ~/launch-tmux.sh"
+  , layoutHook = smartBorders (layoutHook def)
   , manageHook = myManageHook <+> (manageHook def)
   , modMask = mod4Mask
   , startupHook = mappend (startupHook def) setFullscreenSupported
+  , handleEventHook = (handleEventHook def) <+> EWMH.fullscreenEventHook
   }
   `additionalKeysP`
   [ ("M-S-l", spawn "xscreensaver-command -lock")
