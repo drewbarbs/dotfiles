@@ -33,7 +33,9 @@ conf = EWMH.ewmh $ def
   , handleEventHook = (handleEventHook def) <+> EWMH.fullscreenEventHook
   }
   `additionalKeysP`
-  [ ("M-S-l", spawn "xscreensaver-command -lock")
+  [ ("M-p", spawn "rofi -modi combi,window,ssh -show combi -combi-modi drun,run")
+  , ("M-S-p", spawn "dmenu_run")
+  , ("M-S-l", spawn "xscreensaver-command -lock")
   , ("M-S-/", spawn ("echo -e " ++ show help ++ " | xmessage -file -"))
   , ("M-b", sendMessage ToggleStruts)
   , ("M-S-b", spawn "killall -s SIGUSR1 xmobar")
@@ -54,8 +56,8 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:"
     , ""
     , "-- launching and killing programs"
     , "mod-Shift-Enter  Launch terminal window"
-    , "mod-p            Launch dmenu"
-    , "mod-Shift-p      Launch gmrun"
+    , "mod-p            Launch rofi"
+    , "mod-Shift-p      Launch dmenu"
     , "mod-Shift-c      Close/kill the focused window"
     , "mod-Space        Rotate through the available layout algorithms"
     , "mod-Shift-Space  Reset the layouts on the current workSpace to default"
