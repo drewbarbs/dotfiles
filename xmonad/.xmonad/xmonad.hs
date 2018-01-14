@@ -1,6 +1,8 @@
 import XMonad
 
 import XMonad.Layout.NoBorders (smartBorders)
+import XMonad.Layout.MultiToggle (mkToggle, single, Toggle(..))
+import XMonad.Layout.Reflect (REFLECTX(..))
 import qualified XMonad.Hooks.EwmhDesktops as EWMH
 import XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
 import XMonad.Hooks.Place (inBounds, placeHook, underMouse)
@@ -9,6 +11,10 @@ import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.WindowProperties (getProp32)
 
 import StatusBar
+
+myLayoutHook = (mkToggle (single REFLECTX) tall) ||| Mirror tall ||| Full
+  where
+    tall = Tall 1 (3/100) (1/2)
 
 myManageHook :: ManageHook
 myManageHook = composeAll
@@ -26,7 +32,7 @@ myManageHook = composeAll
 -- XMonad configuration *without* xmobar-related items
 conf = EWMH.ewmh $ def
   { terminal = "urxvt -e ~/launch-tmux.sh"
-  , layoutHook = smartBorders (layoutHook def)
+  , layoutHook = smartBorders myLayoutHook
   , manageHook = myManageHook <+> (manageHook def)
   , modMask = mod4Mask
   , startupHook = mappend (startupHook def) setFullscreenSupported
@@ -41,6 +47,7 @@ conf = EWMH.ewmh $ def
   , ("M-S-b", spawn "killall -s SIGUSR1 xmobar")
   , ("M-x r", rescreen)
   , ("M-x d", docksStartupHook)
+  , ("M-x f", sendMessage $ Toggle REFLECTX)
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
   -- Turn output on if it's off, otherwise bump volume
   , ("<XF86AudioRaiseVolume>", spawn "amixer get Master | grep -q off && amixer set Master on || amixer set Master 5%+")
@@ -62,6 +69,7 @@ help = unlines ["The default modifier key is 'alt'. Default keybindings:"
     , "mod-Space        Rotate through the available layout algorithms"
     , "mod-Shift-Space  Reset the layouts on the current workSpace to default"
     , "mod-n            Resize/refresh viewed windows to the correct size"
+    , "mod-x f          Apply REFLECTX modifier (tall layout only)"
     , ""
     , "-- move focus up or down the window stack"
     , "mod-Tab        Move focus to the next window"
