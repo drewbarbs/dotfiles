@@ -1,0 +1,7 @@
+<keymap>
+  <global>
+    <keyboard>
+      <f11>RunScript("special://userdata/kodifs.py")</f11>
+    </keyboard>
+  </global>
+</keymap>
