@@ -14,4 +14,8 @@ URxvt.boldFont: xft:Monospace:bold:size=11
 
 URxvt.letterSpace: -1
 
+! Turn off keycap mode, while leaving on ISO 14755 mode
+URxvt.iso14755: true
+URxvt.iso14755_52: false
+
 #include "tango.Xresources"
