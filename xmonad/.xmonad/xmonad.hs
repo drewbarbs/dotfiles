@@ -1,16 +1,16 @@
-import XMonad
+import           XMonad
 
-import XMonad.Layout.NoBorders (smartBorders)
-import XMonad.Layout.MultiToggle (mkToggle, single, Toggle(..))
-import XMonad.Layout.Reflect (REFLECTX(..))
 import qualified XMonad.Hooks.EwmhDesktops as EWMH
-import XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
-import XMonad.Hooks.Place (inBounds, placeHook, underMouse)
-import XMonad.Operations (rescreen)
-import XMonad.Util.EZConfig (additionalKeysP)
-import XMonad.Util.WindowProperties (getProp32)
+import           XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
+import           XMonad.Hooks.Place (inBounds, placeHook, underMouse)
+import           XMonad.Layout.MultiToggle (mkToggle, single, Toggle(..))
+import           XMonad.Layout.NoBorders (smartBorders)
+import           XMonad.Layout.Reflect (REFLECTX(..))
+import           XMonad.Operations (rescreen)
+import           XMonad.Util.EZConfig (additionalKeysP)
+import           XMonad.Util.WindowProperties (getProp32)
 
-import StatusBar
+import           StatusBar
 
 myLayoutHook = (mkToggle (single REFLECTX) tall) ||| Mirror tall ||| Full
   where
@@ -31,7 +31,7 @@ myManageHook = composeAll
 
 -- XMonad configuration *without* xmobar-related items
 conf = EWMH.ewmh $ def
-  { terminal = "urxvt -e ~/launch-tmux.sh"
+  { terminal = "urxvtc -e ~/launch-tmux.sh"
   , layoutHook = smartBorders myLayoutHook
   , manageHook = myManageHook <+> (manageHook def)
   , modMask = mod4Mask

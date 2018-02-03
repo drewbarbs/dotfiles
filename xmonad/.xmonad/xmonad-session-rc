@@ -33,7 +33,12 @@ fi
 
 xfce4-power-manager
 
-/usr/bin/compton -b -o 0.0 -C -G --backend glx --vsync opengl-swc
+
+urxvtd -q -f -o
+
+/usr/bin/compton -b -o 0.0 -C -G --backend glx --vsync opengl-swc --fade-exclude "class_g = 'URxvt'"
+
+/usr/bin/numlockx &
 
 # Set the pointer cursor
 /usr/bin/xsetroot -cursor_name left_ptr
