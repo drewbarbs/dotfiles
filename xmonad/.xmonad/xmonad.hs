@@ -1,5 +1,7 @@
 import           XMonad
 
+import           Data.Monoid (All(..), mconcat)
+import           Graphics.X11.Xrandr (xrrSelectInput)
 import qualified XMonad.Hooks.EwmhDesktops as EWMH
 import           XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
 import           XMonad.Hooks.Place (inBounds, placeHook, underMouse)
@@ -35,8 +37,17 @@ conf = EWMH.ewmh $ def
   , layoutHook = smartBorders myLayoutHook
   , manageHook = myManageHook <+> (manageHook def)
   , modMask = mod4Mask
-  , startupHook = mappend (startupHook def) setFullscreenSupported
-  , handleEventHook = (handleEventHook def) <+> EWMH.fullscreenEventHook
+  , startupHook = mconcat
+    [ startupHook def
+    , setFullscreenSupported
+    , registerForXRREvents
+    ]
+  , clientMask = (clientMask def) .|. rrScreenChangeNotifyMask
+  , handleEventHook = mconcat
+    [ handleEventHook def
+    , xrrHook
+    , EWMH.fullscreenEventHook
+    ]
   }
   `additionalKeysP`
   [ ("M-p", spawn "rofi -modi combi,window,ssh -show combi -combi-modi drun,run")
@@ -144,3 +155,16 @@ setFullscreenSupported = withDisplay $ \dpy -> do
                     where
                       sf = fromIntegral stateFullscreen
       Nothing -> return ()
+
+registerForXRREvents :: X ()
+registerForXRREvents = withDisplay $ \dpy ->
+  asks theRoot >>= \r -> io $ xrrSelectInput dpy r rrScreenChangeNotifyMask
+
+resetBackground :: X All
+resetBackground = do
+  spawn "feh --bg-fill $(variety --current | tail -n1)"
+  return (All True)
+
+xrrHook :: Event -> X All
+xrrHook (RRScreenChangeNotifyEvent {}) = resetBackground
+xrrHook _ = return (All True)
