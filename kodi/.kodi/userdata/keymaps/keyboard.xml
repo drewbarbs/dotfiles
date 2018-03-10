@@ -2,6 +2,8 @@
   <global>
     <keyboard>
       <f11>RunScript("special://userdata/kodifs.py")</f11>
+      <f>RunScript("special://userdata/kodifs.py")</f>
+      <m>Mute</m>
     </keyboard>
   </global>
 </keymap>
