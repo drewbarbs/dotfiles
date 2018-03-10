@@ -7,7 +7,7 @@ Config { font = "xft:Terminus:size=10"
        , commands = [ Run Weather "KBWI" [ "-t", "<tempF>°F <skyCondition>"
                                          , "-L", "64"
                                          , "-H", "77"
-                                         , "--normal", "green"
+                                         , "--normal", "#CEFFAC"
                                          , "--high", "red"
                                          , "--low", "lightblue"] 36000
                     , Run CommandReader "$HOME/.config/xmobar/volmon.py" "vmon"
