@@ -2,6 +2,7 @@ import           XMonad
 
 import           Data.Monoid (All(..), mconcat)
 import           Graphics.X11.Xrandr (xrrSelectInput)
+import           System.Exit (exitWith, ExitCode(..))
 import qualified XMonad.Hooks.EwmhDesktops as EWMH
 import           XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
 import           XMonad.Hooks.Place (inBounds, placeHook, underMouse)
@@ -9,6 +10,8 @@ import           XMonad.Layout.MultiToggle (mkToggle, single, Toggle(..))
 import           XMonad.Layout.NoBorders (smartBorders)
 import           XMonad.Layout.Reflect (REFLECTX(..))
 import           XMonad.Operations (rescreen)
+import           XMonad.Prompt (XPConfig(..))
+import           XMonad.Prompt.ConfirmPrompt (confirmPrompt)
 import           XMonad.Util.EZConfig (additionalKeysP)
 import           XMonad.Util.WindowProperties (getProp32)
 
@@ -56,6 +59,10 @@ conf = EWMH.ewmh $ def
   , ("M-S-/", spawn ("echo -e " ++ show help ++ " | xmessage -file -"))
   , ("M-b", sendMessage ToggleStruts)
   , ("M-S-b", spawn "killall -s SIGUSR1 xmobar")
+  , ("M-S-q", confirmPrompt
+              (def { font = "-misc-fixed-*-*-*-*-20-*-*-*-*-*-*-*"
+                   , height = 60
+                   }) "exit" $ io (exitWith ExitSuccess))
   , ("M-x r", rescreen)
   , ("M-x d", docksStartupHook)
   , ("M-x f", sendMessage $ Toggle REFLECTX)
