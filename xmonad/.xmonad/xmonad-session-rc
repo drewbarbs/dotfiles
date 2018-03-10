@@ -42,3 +42,4 @@ urxvtd -q -f -o
 
 # Set the pointer cursor
 /usr/bin/xsetroot -cursor_name left_ptr
+export PATH=$PATH:$HOME/.local/bin

@@ -1,0 +1,6 @@
+resolver: lts-10.3
+packages:
+- .
+extra-deps:
+- gio-0.13.4.1
+- gtk-0.14.7

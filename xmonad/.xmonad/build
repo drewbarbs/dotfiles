@@ -1,0 +1,8 @@
+#!/bin/sh
+
+SRC_DIR=~/.xmonad
+EXE=xmonad-config
+
+cd $SRC_DIR
+stack build
+cp -f `stack path --dist-dir`/build/$EXE/$EXE $1

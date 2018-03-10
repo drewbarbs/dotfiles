@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IFS=' ' geom=($(runhaskell ~/dotfiles/xmonad/.xmonad/getTrayerGeom.hs))
+IFS=' ' geom=($(cd ~/.xmonad && stack exec getTrayerGeom))
 
 if [[ "$?" -eq 0 ]]; then
     # cleanup any existing instances
