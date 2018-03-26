@@ -17,6 +17,9 @@ elif [[ -x /usr/lib/gnome-settings-daemon/gsd-xsettings ]]; then
     # newer gnome broke gnome settings daemon out into modular exe's
     # https://bugs.archlinux.org/task/53800
     /usr/lib/gnome-settings-daemon/gsd-xsettings &
+elif [[ -x /usr/lib/gsd-xsettings ]]; then
+    # gnome 3.28 on arch moved gsd-xsettings to /usr/lib
+    /usr/lib/gsd-xsettings &
 fi
 
 /usr/bin/xscreensaver -no-splash &
