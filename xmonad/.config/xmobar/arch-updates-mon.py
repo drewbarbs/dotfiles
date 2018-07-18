@@ -9,6 +9,7 @@ import atexit
 import functools
 import subprocess
 import sys
+from contextlib import suppress
 from datetime import timedelta
 from threading import Lock, Thread, Timer
 
@@ -28,23 +29,30 @@ DEFAULT_CHECK_CMD = '/usr/bin/checkupdates'
 DEFAULT_WATCH_DIR = '/var/lib/pacman/local'
 
 
+def tryprint(s):
+    with suppress(Exception):
+        print(s)
+
+
 def check_for_updates(check_cmd, *args):
     try:
         with CHECK_LOCK:
             output_bytes = subprocess.check_output(check_cmd, shell=True)
     except:
-        print('<fc=#FFB6B0><icon=arch-error-symbolic.xbm/>ERROR</fc>')
+        tryprint('<fc=#FFB6B0><icon=arch-error-symbolic.xbm/>ERROR</fc>')
     else:
         output = output_bytes.decode('utf8')
         if output:
             n_avail = len(output.split('\n')) - 1
-            print((
+            tryprint((
                 "<action=`bash -c 'zenity --text-info --filename=<(checkupdates)'` button=1>"
                 "<fc=#CEFFAC><icon=arch-updates-symbolic.xbm/></fc> {}</action>"
             ).format(n_avail))
         else:
-            print('<icon=arch-uptodate-symbolic.xbm/>')
-    sys.stdout.flush()
+            tryprint('<icon=arch-uptodate-symbolic.xbm/>')
+
+    with suppress(BrokenPipeError):
+        sys.stdout.flush()
 
 
 def start_next_timer(check_period, *args):
@@ -98,3 +106,8 @@ if __name__ == '__main__':
     stdout_watcher.start()
 
     ml.run()
+
+    # Finally, close stdout ourselves so we can swallow exception from stdout flush
+    # https://stackoverflow.com/a/18954489/756104
+    with suppress(Exception):
+        sys.stdout.close()
