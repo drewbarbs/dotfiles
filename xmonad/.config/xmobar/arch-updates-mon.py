@@ -35,6 +35,13 @@ def tryprint(s):
 
 
 def check_for_updates(check_cmd, *args):
+    if args:
+        *rest, evt = args
+        # File monitor doesnt seem to emit changes_done_hint if the
+        # only changes were deletes?
+        if evt not in (Gio.FileMonitorEvent.CHANGES_DONE_HINT,
+                       Gio.FileMonitorEvent.DELETED):
+            return
     try:
         with CHECK_LOCK:
             output_bytes = subprocess.check_output(check_cmd, shell=True)
