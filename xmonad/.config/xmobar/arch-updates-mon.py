@@ -7,6 +7,7 @@
 import argparse
 import atexit
 import functools
+import signal
 import subprocess
 import sys
 from contextlib import suppress
@@ -19,8 +20,6 @@ gi.require_version('Gio', '2.0')
 
 from gi.repository import GLib
 from gi.repository import Gio
-
-from stdout_watch import watch_for_stdout_close
 
 CHECK_LOCK = Lock()
 DEFAULT_CHECK_PERIOD = timedelta(hours=1)
@@ -35,28 +34,32 @@ def tryprint(s):
 
 
 def check_for_updates(check_cmd, *args):
-    if args:
+    if args and len(args) >= 4 and isinstance(args[3], Gio.FileMonitorEvent):
         *rest, evt = args
         # File monitor doesnt seem to emit changes_done_hint if the
         # only changes were deletes?
         if evt not in (Gio.FileMonitorEvent.CHANGES_DONE_HINT,
                        Gio.FileMonitorEvent.DELETED):
             return
+
+    def wrap_refresh_action(s):
+        return '<action=`pkill -10 -f arch-updates-mon.py` button=2>' + s + '</action>'
+
     try:
         with CHECK_LOCK:
             output_bytes = subprocess.check_output(check_cmd, shell=True)
     except:
-        tryprint('<fc=#FFB6B0><icon=arch-error-symbolic.xbm/>ERROR</fc>')
+        tryprint(wrap_refresh_action('<fc=#FFB6B0><icon=arch-error-symbolic.xbm/>ERROR</fc>'))
     else:
         output = output_bytes.decode('utf8')
         if output:
             n_avail = len(output.split('\n')) - 1
-            tryprint((
+            tryprint(wrap_refresh_action(
                 "<action=`bash -c 'zenity --text-info --filename=<(checkupdates)'` button=1>"
                 "<fc=#CEFFAC><icon=arch-updates-symbolic.xbm/></fc> {}</action>"
             ).format(n_avail))
         else:
-            tryprint('<icon=arch-uptodate-symbolic.xbm/>')
+            tryprint(wrap_refresh_action('<icon=arch-uptodate-symbolic.xbm/>'))
 
     with suppress(BrokenPipeError):
         sys.stdout.flush()
@@ -107,10 +110,11 @@ if __name__ == '__main__':
 
     ml = GLib.MainLoop()
 
-    stdout_watcher = Thread(
-        target=watch_for_stdout_close, args=(lambda: ml.quit(), ))
-    stdout_watcher.daemon = True
-    stdout_watcher.start()
+    GLib.unix_fd_add_full(GLib.PRIORITY_DEFAULT, sys.stdout.fileno(), 0,
+                          lambda *args, **kwargs: ml.quit())
+
+    signal.signal(signal.SIGUSR1, functools.partial(check_for_updates,
+                                                    args.cmd))
 
     ml.run()
 

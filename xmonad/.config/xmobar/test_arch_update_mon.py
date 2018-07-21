@@ -147,7 +147,6 @@ class TestStdoutWatch(unittest.TestCase):
         with self.assertRaises(AssertionError):
             self._do_test_dir_change_trigger_action(action)
 
-    @unittest.expectedFailure
     def test_sigusr1_trigger(self):
         """ Monitor checks for updates when it gets SIGUSR1 """
 
@@ -158,17 +157,22 @@ class TestStdoutWatch(unittest.TestCase):
 
             p = subprocess.Popen([TEST_FILE, '--cmd', cmd, '--interval=1000'],
                                  **self.PIPES)
+            n_signals = 2
             with kill(p):
-                p.send_signal(signal.SIGUSR1)
-
+                # Give app opportunity to install signal handler
                 time.sleep(0.5)
+
+                for i in range(2):
+                    p.send_signal(signal.SIGUSR1)
+                    time.sleep(0.5)
+
                 p.stdout.close()
                 self.assertEqual(0, p.wait(1.0))
                 p.stdin.close()
                 p.stderr.close()
 
             with open(checklog, 'rb') as f:
-                self.assertGreaterEqual(len(f.readlines()), 2)
+                self.assertGreaterEqual(len(f.readlines()), n_signals + 1)
 
 
 if __name__ == '__main__':
