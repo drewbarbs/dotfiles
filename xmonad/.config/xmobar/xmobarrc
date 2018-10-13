@@ -8,7 +8,7 @@ Config { font = "xft:Terminus:size=10"
                                          , "-L", "64"
                                          , "-H", "77"
                                          , "--normal", "#CEFFAC"
-                                         , "--high", "red"
+                                         , "--high", "#FFB6B0"
                                          , "--low", "lightblue"] 36000
                     , Run CommandReader "$HOME/.config/xmobar/volmon.py" "vmon"
                     , Run CommandReader "$HOME/.config/xmobar/arch-updates-mon.py" "archupdates"
