@@ -39,8 +39,8 @@
     context = mod4+shift+period
 
 [urgency_low]
-    frame_color = "#5B8234"
-    foreground = "#5B8234"
+    frame_color = "#1ed760"
+    foreground = "#1ed760"
     background = "#191311"
     timeout = 5
 
