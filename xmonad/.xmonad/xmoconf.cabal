@@ -15,10 +15,11 @@ executable xmonad-config
   other-modules:       StatusBar
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5, xmonad, xmonad-contrib, unix, X11
-  ghc-options:         -i -ilib -main-is main
+  ghc-options:         -i -ilib -main-is main -O2
 
 executable getTrayerGeom
   hs-source-dirs:     .
   main-is:            getTrayerGeom.hs
   default-language:   Haskell2010
   build-depends:      base >= 4.7 && < 5, gtk, X11, mtl
+  ghc-options:        -O2
