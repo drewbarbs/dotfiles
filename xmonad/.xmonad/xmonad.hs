@@ -55,6 +55,7 @@ conf = EWMH.ewmh $ def
   `additionalKeysP`
   [ ("M-p", spawn "rofi -modi combi,window,ssh -show combi -combi-modi drun,run")
   , ("M-S-p", spawn "dmenu_run")
+  , ("M-S-m", spawn "emacsclient -c")
   , ("M-S-l", spawn "xscreensaver-command -lock")
   , ("M-S-/", spawn ("echo -e " ++ show help ++ " | xmessage -file -"))
   , ("M-b", sendMessage ToggleStruts)
@@ -77,10 +78,11 @@ main :: IO ()
 main = xmonad =<< myStatusBar conf
 
 help :: String
-help = unlines ["The default modifier key is 'alt'. Default keybindings:"
+help = unlines ["Keybindings:"
     , ""
     , "-- launching and killing programs"
     , "mod-Shift-Enter  Launch terminal window"
+    , "mod-Shift-e      Launch emacsclient window"
     , "mod-p            Launch rofi"
     , "mod-Shift-p      Launch dmenu"
     , "mod-Shift-c      Close/kill the focused window"
