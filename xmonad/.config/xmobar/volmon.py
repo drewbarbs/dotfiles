@@ -3,6 +3,8 @@ import asyncio
 import subprocess
 import sys
 
+from contextlib import closing
+
 
 def update_volume():
     vol, state = subprocess.check_output(
@@ -17,16 +19,18 @@ def update_volume():
 
 
 class StdoutProtocol(asyncio.Protocol):
-    def __init__(self, exit_future):
-        self.exit_future = exit_future
+    def __init__(self, exitev):
+        self.exitev = exitev
 
     def connection_lost(self, exc):
         # Detects stdout close *when stdout is a PIPE*
-        self.exit_future.set_result(True)
+        self.exitev.set()
 
 
-async def monitor(exit_future):
-    while not exit_future.done():
+async def monitor(exitev):
+    evtask = asyncio.create_task(exitev.wait())
+
+    while not exitev.is_set():
         # pactl will die if pulseaudio is restarted, so we'll
         # continually relaunch (as I sometimes need to restart pulse
         # if sound gets weird)
@@ -40,8 +44,8 @@ async def monitor(exit_future):
         while True:
             ltask = asyncio.create_task(mon.stdout.readline())
             done, pending = await asyncio.wait(
-                [exit_future, ltask], return_when=asyncio.FIRST_COMPLETED)
-            if exit_future in done:
+                [evtask, ltask], return_when=asyncio.FIRST_COMPLETED)
+            if evtask in done:
                 mon.kill()
                 break
             line = ltask.result().decode('utf8')
@@ -55,14 +59,11 @@ async def monitor(exit_future):
 
 async def main():
     loop = asyncio.get_event_loop()
-    exit_future = loop.create_future()
-    coro = loop.connect_write_pipe(lambda: StdoutProtocol(exit_future),
-                                   sys.stdout)
-    stdout_watch_task = loop.create_task(coro)
-    try:
-        await asyncio.gather(stdout_watch_task, monitor(exit_future))
-    except:
-        stdout_watch_task.cancel()
+    exitev = asyncio.Event()
+    t, p = await loop.connect_write_pipe(lambda: StdoutProtocol(exitev),
+                                         sys.stdout)
+    with closing(t):
+        await monitor(exitev)
 
 
 update_volume()  # Initial print of volume status
