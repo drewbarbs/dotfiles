@@ -9,6 +9,8 @@ import           XMonad.Hooks.Place (inBounds, placeHook, underMouse)
 import           XMonad.Layout.MultiToggle (mkToggle, single, Toggle(..))
 import           XMonad.Layout.NoBorders (smartBorders)
 import           XMonad.Layout.Reflect (REFLECTX(..))
+import           XMonad.Layout.Renamed (Rename(..), renamed)
+import           XMonad.Layout.Spacing (Border(..), SpacingModifier(..), spacingRaw)
 import           XMonad.Operations (rescreen)
 import           XMonad.Prompt (XPConfig(..))
 import           XMonad.Prompt.ConfirmPrompt (confirmPrompt)
@@ -19,7 +21,10 @@ import           StatusBar
 
 myLayoutHook = (mkToggle (single REFLECTX) tall) ||| Mirror tall ||| Full
   where
-    tall = Tall 1 (3/100) (1/2)
+    tall = renamed [CutWordsLeft 1] -- Cut the "Spaced" from the layout name
+            -- Start with gaps disabled, Can press M-g to toggle them
+            $ spacingRaw True (Border 0 5 5 5) False (Border 5 5 5 5) False
+            $ Tall 1 (3/100) (1/2)
 
 myManageHook :: ManageHook
 myManageHook = composeAll
@@ -59,6 +64,8 @@ conf = EWMH.ewmh $ def
   , ("M-S-l", spawn "xscreensaver-command -lock")
   , ("M-S-/", spawn ("echo -e " ++ show help ++ " | xmessage -file -"))
   , ("M-b", sendMessage ToggleStruts)
+  , ("M-g", mconcat [sendMessage $ ModifyScreenBorderEnabled not,
+                     sendMessage $ ModifyWindowBorderEnabled not])
   , ("M-S-b", spawn "killall -s SIGUSR1 xmobar")
   , ("M-S-q", confirmPrompt
               (def { font = "-misc-fixed-*-*-*-*-20-*-*-*-*-*-*-*"
@@ -86,9 +93,13 @@ help = unlines ["Keybindings:"
     , "mod-p            Launch rofi"
     , "mod-Shift-p      Launch dmenu"
     , "mod-Shift-c      Close/kill the focused window"
+    , ""
+    ,"-- Layout"
     , "mod-Space        Rotate through the available layout algorithms"
     , "mod-Shift-Space  Reset the layouts on the current workSpace to default"
     , "mod-n            Resize/refresh viewed windows to the correct size"
+    , "mod-b            Toggle Struts (status bar)"
+    , "mod-g            Toggle gaps"
     , "mod-x f          Apply REFLECTX modifier (tall layout only)"
     , ""
     , "-- move focus up or down the window stack"
@@ -137,7 +148,6 @@ help = unlines ["Keybindings:"
     , ""
     , "-- Misc"
     , "mod-Shift-b   Cycle statusbar to the next monitor"
-    , ""
     , "mod-Shift-l   Lock screen with xscreensaver"
     , ""
     , "-- Debug"
