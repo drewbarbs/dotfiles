@@ -2,3 +2,6 @@
 *.hi
 *.errors
 *-x86_64-linux
+__pycache__/
+.stack-work/
+prompt-history

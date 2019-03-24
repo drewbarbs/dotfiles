@@ -39,10 +39,12 @@ xfce4-power-manager
 
 urxvtd -q -f -o
 
-/usr/bin/compton -b -o 0.0 -C -G --backend glx --vsync opengl-swc --fade-exclude "class_g = 'URxvt'"
+# Compton will read from config file at ~/.config/compton.conf
+/usr/bin/compton -b
 
 /usr/bin/numlockx &
 
 # Set the pointer cursor
 /usr/bin/xsetroot -cursor_name left_ptr
 export PATH=$PATH:$HOME/.local/bin
+export _JAVA_AWT_WM_NONREPARENTING=1
