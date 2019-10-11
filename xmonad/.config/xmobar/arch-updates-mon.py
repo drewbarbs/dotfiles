@@ -33,22 +33,20 @@ def tryprint(*args, **kwargs):
 def check_for_updates(check_cmd, *ignored):
     tryprint('<action=`pkill -10 -f arch-updates-mon.py` button=2>', end='')
 
-    try:
-        output_bytes = subprocess.check_output(check_cmd, shell=True)
-    except:
+    p = subprocess.run(check_cmd, shell=True, capture_output=True)
+    output = p.stdout.decode('utf8')
+    if p.stderr:
         tryprint(
             '<fc=#FFB6B0><icon=arch-error-symbolic.xbm/>ERROR</fc>', end='')
+    elif output:
+        n_avail = len(output.split('\n')) - 1
+        tryprint(
+            ("<action=`bash -c 'zenity --text-info --filename=<(checkupdates)'` button=1>"
+             "<fc=#CEFFAC><icon=arch-updates-symbolic.xbm/></fc> {}</action>"
+            ).format(n_avail),
+            end='')
     else:
-        output = output_bytes.decode('utf8')
-        if output:
-            n_avail = len(output.split('\n')) - 1
-            tryprint(
-                ("<action=`bash -c 'zenity --text-info --filename=<(checkupdates)'` button=1>"
-                 "<fc=#CEFFAC><icon=arch-updates-symbolic.xbm/></fc> {}</action>"
-                 ).format(n_avail),
-                end='')
-        else:
-            tryprint('<icon=arch-uptodate-symbolic.xbm/>', end='')
+        tryprint('<icon=arch-uptodate-symbolic.xbm/>', end='')
 
     tryprint('</action>')
     with suppress(BrokenPipeError):
