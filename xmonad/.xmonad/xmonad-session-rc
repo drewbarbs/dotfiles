@@ -39,8 +39,8 @@ xfce4-power-manager
 
 urxvtd -q -f -o
 
-# Compton will read from config file at ~/.config/compton.conf
-/usr/bin/compton -b
+# picom will read from config file at ~/.config/picom.conf
+/usr/bin/picom -b
 
 /usr/bin/numlockx &
 
