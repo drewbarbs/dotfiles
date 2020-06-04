@@ -1,13 +1,17 @@
 [user]
-	email = andrew.barbarello@outlook.com
-	name = Andrew Barbarello
+        email = andrew.barbarello@outlook.com
+        name = Andrew Barbarello
 [diff]
-  tool = meld
+        tool = meld
+
 [difftool]
-	prompt = false
+        prompt = false
+
 [merge]
-	tool = meldmerge
+        tool = meldmerge
+
 [mergetool "meldmerge"]
-  cmd = meld $LOCAL $BASE $REMOTE --auto-merge --output $MERGED
+        cmd = meld $LOCAL $BASE $REMOTE --auto-merge --output $MERGED
+
 [push]
-	default = simple
+        default = simple
