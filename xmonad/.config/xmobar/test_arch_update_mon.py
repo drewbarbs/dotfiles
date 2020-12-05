@@ -43,16 +43,24 @@ class TestStdoutWatch(unittest.TestCase):
         """ Monitor checks for updates after every --interval seconds """
 
         with tempfile.TemporaryDirectory() as dname:
-            # Give a command we can observe result of
+            # make a directory, to monitor activity of, that will not
+            # be touched during the test
+            inactive_dir = os.path.join(dname, 'inactive')
+            os.mkdir(inactive_dir)
+            # Give a command we can observe result of, our "check"
+            # command should be run every INTERVAL seconds
             checklog = os.path.join(dname, 'checklog')
             cmd = 'echo something >> {}'.format(checklog)
 
-            p = subprocess.Popen([TEST_FILE, '--cmd', cmd, '--interval=0.1'],
-                                 **self.PIPES)
+            p = subprocess.Popen([
+                TEST_FILE, '--cmd', cmd, '--interval=0.1', '--dir',
+                inactive_dir
+            ], **self.PIPES)
             with kill(p):
+                # check should occur at least 4 times during this window
                 time.sleep(0.5)
                 p.stdout.close()
-
+                # after we've closed stdout, monitor should exit
                 self.assertEqual(0, p.wait(1.0))
                 p.stdin.close()
                 p.stderr.close()
@@ -96,7 +104,6 @@ class TestStdoutWatch(unittest.TestCase):
 
     def test_dir_change_trigger_fedit(self):
         """ Monitor checks for updates when file in monitored directory changes """
-
         def preaction(monitor_dname):
             # Prestage file
             monitored_file = os.path.join(monitor_dname, 'monitor')
@@ -113,7 +120,6 @@ class TestStdoutWatch(unittest.TestCase):
 
     def test_dir_change_trigger_funlink(self):
         """ Monitor checks for updates when a file is deleted from monitored dir """
-
         def preaction(monitor_dname):
             # Prestage file
             monitored_file = os.path.join(monitor_dname, 'monitor')
@@ -129,7 +135,6 @@ class TestStdoutWatch(unittest.TestCase):
 
     def test_dir_change_trigger_create(self):
         """ Monitor checks for updates when a file is added to monitored dir """
-
         def action(monitor_dname):
             # remove the file
             new_file = os.path.join(monitor_dname, 'newfile')
@@ -140,7 +145,6 @@ class TestStdoutWatch(unittest.TestCase):
 
     def test_dir_change_trigger_pass(self):
         """ Check that the dir change tests fail when no change is made """
-
         def action(monitor_dname):
             pass
 
