@@ -1,91 +1,99 @@
-import           XMonad
+import XMonad
 
-import           Data.Monoid (All(..), mconcat)
-import           Graphics.X11.Xrandr (xrrSelectInput)
-import           System.Exit (exitWith, ExitCode(..))
+import Data.Monoid (All(..), mconcat)
+import Graphics.X11.Xrandr (xrrSelectInput)
+import System.Exit (ExitCode(..), exitWith)
 import qualified XMonad.Hooks.EwmhDesktops as EWMH
-import           XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
-import           XMonad.Hooks.Place (inBounds, placeHook, underMouse)
-import           XMonad.Layout.MultiToggle (mkToggle, single, Toggle(..))
-import           XMonad.Layout.NoBorders (smartBorders)
-import           XMonad.Layout.Reflect (REFLECTX(..))
-import           XMonad.Layout.Renamed (Rename(..), renamed)
-import           XMonad.Layout.Spacing (Border(..), SpacingModifier(..), spacingRaw)
-import           XMonad.Operations (rescreen)
-import           XMonad.Prompt (XPConfig(..))
-import           XMonad.Prompt.ConfirmPrompt (confirmPrompt)
-import           XMonad.Util.EZConfig (additionalKeysP)
-import           XMonad.Util.WindowProperties (getProp32)
+import XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
+import XMonad.Hooks.Place (inBounds, placeHook, underMouse)
+import XMonad.Layout.MultiToggle (Toggle(..), mkToggle, single)
+import XMonad.Layout.NoBorders (smartBorders)
+import XMonad.Layout.Reflect (REFLECTX(..))
+import XMonad.Layout.Renamed (Rename(..), renamed)
+import XMonad.Layout.Spacing (Border(..), SpacingModifier(..), spacingRaw)
+import XMonad.Operations (rescreen)
+import XMonad.Prompt (XPConfig(..))
+import XMonad.Prompt.ConfirmPrompt (confirmPrompt)
+import XMonad.Util.EZConfig (additionalKeysP)
+import XMonad.Util.WindowProperties (getProp32)
 
-import           StatusBar
+import StatusBar
 
 myLayoutHook = (mkToggle (single REFLECTX) tall) ||| Mirror tall ||| Full
   where
-    tall = renamed [CutWordsLeft 1] -- Cut the "Spaced" from the layout name
+    tall =
+      renamed [CutWordsLeft 1] -- Cut the "Spaced" from the layout name
             -- Start with gaps disabled, Can press M-g to toggle them
-            $ spacingRaw True (Border 0 5 5 5) False (Border 5 5 5 5) False
-            $ Tall 1 (3/100) (1/2)
+       $
+      spacingRaw True (Border 0 5 5 5) False (Border 5 5 5 5) False $
+      Tall 1 (3 / 100) (1 / 2)
 
 myManageHook :: ManageHook
-myManageHook = composeAll
-  [ appName =? "gnome-calendar" --> floatRelative 0.5
-  , appName =? "zenity" --> floatRelative 0.5
-  , appName =? "gnome-system-monitor" --> floatRelative 0.9
-  , appName =? "org.gnome.Weather.Application" --> floatRelative 1
-  ]
-  where
+myManageHook =
+  composeAll
+    [ appName =? "gnome-calendar" --> floatRelative 0.5
+    , appName =? "zenity" --> floatRelative 0.5
+    , appName =? "gnome-system-monitor" --> floatRelative 0.9
+    , className =? "Org.gnome.Weather" --> floatRelative 1
+    ]
     -- float the window, place it under the mouse where x controls how
     -- far across the top of the window (0 = left corner, 1 = right
     -- corner) the mouse pointer should be located
+  where
     floatRelative x = (placeHook $ inBounds (underMouse (x, 0.1))) <+> doFloat
 
 -- XMonad configuration *without* xmobar-related items
-conf = EWMH.ewmh $ def
-  { terminal = "urxvtc -e ~/launch-tmux.sh"
-  , layoutHook = smartBorders myLayoutHook
-  , manageHook = myManageHook <+> (manageHook def)
-  , modMask = mod4Mask
-  , startupHook = mconcat
-    [ startupHook def
-    , setFullscreenSupported
-    , registerForXRREvents
-    ]
-  , clientMask = (clientMask def) .|. rrScreenChangeNotifyMask
-  , handleEventHook = mconcat
-    [ handleEventHook def
-    , xrrHook
-    , EWMH.fullscreenEventHook
-    ]
-  }
-  `additionalKeysP`
-  [ ("M-p", spawn "rofi -modi combi,window,ssh -show combi -combi-modi drun,run")
+conf =
+  EWMH.ewmh $
+  def
+    { terminal = "urxvtc -e ~/launch-tmux.sh"
+    , layoutHook = smartBorders myLayoutHook
+    , manageHook = myManageHook <+> (manageHook def)
+    , modMask = mod4Mask
+    , startupHook =
+        mconcat [startupHook def, setFullscreenSupported, registerForXRREvents]
+    , clientMask = (clientMask def) .|. rrScreenChangeNotifyMask
+    , handleEventHook =
+        mconcat [handleEventHook def, xrrHook, EWMH.fullscreenEventHook]
+    } `additionalKeysP`
+  [ ( "M-p"
+    , spawn "rofi -modi combi,window,ssh -show combi -combi-modi drun,run")
   , ("M-S-p", spawn "dmenu_run")
   , ("M-S-m", spawn "emacsclient -c")
   , ("M-S-l", spawn "xscreensaver-command -lock")
   , ("M-S-/", spawn ("echo -e " ++ show help ++ " | xmessage -file -"))
   , ("M-b", sendMessage ToggleStruts)
-  , ("M-g", mconcat [sendMessage $ ModifyScreenBorderEnabled not,
-                     sendMessage $ ModifyWindowBorderEnabled not])
+  , ( "M-g"
+    , mconcat
+        [ sendMessage $ ModifyScreenBorderEnabled not
+        , sendMessage $ ModifyWindowBorderEnabled not
+        ])
   , ("M-S-b", spawn "killall -s SIGUSR1 xmobar")
-  , ("M-S-q", confirmPrompt
-              (def { font = "-misc-fixed-*-*-*-*-20-*-*-*-*-*-*-*"
-                   , height = 60
-                   }) "exit" $ io (exitWith ExitSuccess))
+  , ( "M-S-q"
+    , confirmPrompt
+        (def {font = "-misc-fixed-*-*-*-*-20-*-*-*-*-*-*-*", height = 60})
+        "exit" $
+      io (exitWith ExitSuccess))
   , ("M-x r", rescreen)
   , ("M-x d", docksStartupHook)
   , ("M-x f", sendMessage $ Toggle REFLECTX)
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
   -- Turn output on if it's off, otherwise bump volume
-  , ("<XF86AudioRaiseVolume>", spawn "amixer get Master | grep -q off && amixer set Master on || amixer set Master 5%+")
+  , ( "<XF86AudioRaiseVolume>"
+    , spawn
+        "amixer get Master | grep -q off && amixer set Master on || amixer set Master 5%+")
   , ("<XF86AudioMute>", spawn "amixer set Master toggle")
   , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 10")
-  , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 10")]
+  , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 10")
+  ]
 
 main :: IO ()
 main = xmonad =<< myStatusBar conf
 
 help :: String
-help = unlines ["Keybindings:"
+help =
+  unlines
+    [ "Keybindings:"
     , ""
     , "-- launching and killing programs"
     , "mod-Shift-Enter  Launch terminal window"
@@ -94,7 +102,7 @@ help = unlines ["Keybindings:"
     , "mod-Shift-p      Launch dmenu"
     , "mod-Shift-c      Close/kill the focused window"
     , ""
-    ,"-- Layout"
+    , "-- Layout"
     , "mod-Space        Rotate through the available layout algorithms"
     , "mod-Shift-Space  Reset the layouts on the current workSpace to default"
     , "mod-n            Resize/refresh viewed windows to the correct size"
@@ -152,7 +160,8 @@ help = unlines ["Keybindings:"
     , ""
     , "-- Debug"
     , "mod-x r       xmonad \"rescreen\""
-    , "mod-x d       recompute dock struts"]
+    , "mod-x d       recompute dock struts"
+    ]
 
 -- Add _NET_WM_STATE_FULLSCREEN to the _NET_SUPPORTED property of the
 -- root window to advertise support for it (if not already present).
@@ -161,23 +170,26 @@ help = unlines ["Keybindings:"
 -- doesn't seem to already have a helper to announce support:
 -- https://www.reddit.com/r/xmonad/comments/77szad/cant_go_fullscreen_in_firefox_even_with_ewmh/doof76r/
 setFullscreenSupported :: X ()
-setFullscreenSupported = withDisplay $ \dpy -> do
+setFullscreenSupported =
+  withDisplay $ \dpy -> do
     r <- asks theRoot
     netSupported <- getAtom "_NET_SUPPORTED"
     tAtom <- getAtom "ATOM"
     stateFullscreen <- getAtom "_NET_WM_STATE_FULLSCREEN"
     curSupported <- getProp32 netSupported r
     case curSupported of
-      Just props -> if sf `elem` props
-                    then return ()
-                    else io $ changeProperty32 dpy r netSupported tAtom propModeAppend [sf]
-                    where
-                      sf = fromIntegral stateFullscreen
+      Just props ->
+        if sf `elem` props
+          then return ()
+          else io $
+               changeProperty32 dpy r netSupported tAtom propModeAppend [sf]
+        where sf = fromIntegral stateFullscreen
       Nothing -> return ()
 
 registerForXRREvents :: X ()
-registerForXRREvents = withDisplay $ \dpy ->
-  asks theRoot >>= \r -> io $ xrrSelectInput dpy r rrScreenChangeNotifyMask
+registerForXRREvents =
+  withDisplay $ \dpy ->
+    asks theRoot >>= \r -> io $ xrrSelectInput dpy r rrScreenChangeNotifyMask
 
 resetBackground :: X All
 resetBackground = do
