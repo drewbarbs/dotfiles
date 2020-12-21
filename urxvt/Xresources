@@ -12,6 +12,9 @@ URxvt.scrollBar: false
 URxvt.font: xft:Monospace:size=11
 URxvt.boldFont: xft:Monospace:bold:size=11
 
+! :Bind C-0, C-+ and C-= to activate small, medium, and big font size resp.     
+URxvt.perl-ext-common: ...,font-size
+
 URxvt.letterSpace: -1
 
 ! Turn off keycap mode, while leaving on ISO 14755 mode
