@@ -4,12 +4,7 @@ Config { font = "xft:Terminus:size=10"
        , bgColor = "black"
        , fgColor = "gray"
        , position = TopSize L 95 18
-       , commands = [ Run Weather "KBWI" [ "-t", "<tempF>°F <skyCondition>"
-                                         , "-L", "64"
-                                         , "-H", "77"
-                                         , "--normal", "#CEFFAC"
-                                         , "--high", "#FFB6B0"
-                                         , "--low", "lightblue"] 36000
+       , commands = [ Run CommandReader "$HOME/.config/xmobar/weather.py" "weather"
                     , Run CommandReader "$HOME/.config/xmobar/volmon.py" "vmon"
                     , Run CommandReader "$HOME/.config/xmobar/arch-updates-mon.py" "archupdates"
                     , Run Cpu [ "-t", "<icon=cpu.xbm/> <total>%"
@@ -36,5 +31,5 @@ Config { font = "xft:Terminus:size=10"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {%vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%KBWI%</action> | "
+       , template = "%StdinReader%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {%vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%weather%</action> | "
        }
