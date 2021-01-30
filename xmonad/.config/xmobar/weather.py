@@ -13,15 +13,28 @@ gi.require_version('GLib', '2.0')
 from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GLib
 
+COLOR_BLUE = 'lightblue'
+COLOR_GREEN = '#CEFFAC'
+COLOR_RED = '#FFB6B0'
+
 
 def update_weather(latitude, longitude):
-    resp = requests.get(f'https://api.weather.gov/points/{latitude:.4f},{longitude:.4f}')
-    points = json.loads(resp.text)['properties']
+    resp = requests.get(
+        f'https://api.weather.gov/points/{latitude:.4f},{longitude:.4f}')
+    if not resp.ok or 'properties' not in (resp_obj := json.loads(resp.text)):
+        print(f'<fc={COLOR_RED}>Failed to fetch gridpoints</fc>', flush=True)
+        return
+
+    points = resp_obj['properties']
     hrly_forecast_url = points['forecastHourly']
     relative_loc = points['relativeLocation']['properties']
     city, state = relative_loc['city'], relative_loc['state']
 
     resp = requests.get(hrly_forecast_url)
+    if not resp.ok or 'properties' not in (resp_obj := json.loads(resp.text)):
+        print(f'<fc={COLOR_RED}>Failed to fetch forecast</fc>', flush=True)
+        return
+
     forecast = json.loads(resp.text)['properties']
     this_hr = forecast['periods'][0]
 
@@ -30,11 +43,11 @@ def update_weather(latitude, longitude):
     short_forecast = this_hr['shortForecast']
 
     if temp < 60:
-        color = 'lightblue'
+        color = COLOR_BLUE
     elif temp < 77:
-        color = '#CEFFAC'
+        color = COLOR_GREEN
     else:
-        color = '#FFB6B0'
+        color = COLOR_RED
 
     print(f'<fc={color}>{temp}</fc>°{unit} {short_forecast}', flush=True)
     return True
@@ -89,7 +102,14 @@ def main():
     client.connect_to_signal('LocationUpdated',
                              functools.partial(location_handler, bus, client))
 
-    client.Start()
+    try:
+        client.Start()
+    except dbus.exceptions.DBusException:
+        # One way to fix this error on Arch was to start the geoclue demo agent:
+        # dex /usr/share/applications/geoclue-demo-agent.desktop
+        print(f'<fc={COLOR_RED}>Error connecting to DBus</fc>', flush=True)
+        return
+
     loop.run()
 
     print('done')
