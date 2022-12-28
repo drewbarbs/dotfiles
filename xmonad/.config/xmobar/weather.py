@@ -23,7 +23,7 @@ def update_weather(latitude, longitude):
         f'https://api.weather.gov/points/{latitude:.4f},{longitude:.4f}')
     if not resp.ok or 'properties' not in (resp_obj := json.loads(resp.text)):
         print(f'<fc={COLOR_RED}>Failed to fetch gridpoints</fc>', flush=True)
-        return
+        return True
 
     points = resp_obj['properties']
     hrly_forecast_url = points['forecastHourly']
@@ -33,7 +33,7 @@ def update_weather(latitude, longitude):
     resp = requests.get(hrly_forecast_url)
     if not resp.ok or 'properties' not in (resp_obj := json.loads(resp.text)):
         print(f'<fc={COLOR_RED}>Failed to fetch forecast</fc>', flush=True)
-        return
+        return True
 
     forecast = json.loads(resp.text)['properties']
     this_hr = forecast['periods'][0]
