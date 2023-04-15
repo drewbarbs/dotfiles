@@ -1,35 +1,75 @@
 -- -*- mode: haskell -*-
-Config { font = "xft:Terminus (TTF)"
-       , iconRoot = ".config/xmobar/icons"
-       , bgColor = "black"
-       , fgColor = "gray"
-       , position = TopSize L 95 18
-       , commands = [ Run CommandReader "$HOME/.config/xmobar/weather.py" "weather"
-                    , Run CommandReader "$HOME/.config/xmobar/volmon.py" "vmon"
-                    , Run CommandReader "$HOME/.config/xmobar/arch-updates-mon.py" "archupdates"
-                    , Run Cpu [ "-t", "<icon=cpu.xbm/> <total>%"
-                              , "-m", "2"
-                              , "-L", "50"
-                              , "-H", "75"
-                              , "-n", "#FFFFCC"
-                              , "-h", "#FFB6B0"] 10
-                    , Run Memory [ "-t", "<icon=mem.xbm/> <usedratio>%"
-                                 , "-L", "50"
-                                 , "-H", "75"
-                                 , "-n", "#FFFFCC"
-                                 , "-h", "#FFB6B0"] 10
-                    , Run DynNetwork [ "-t", "<icon=net_down_03.xbm/><rx><icon=net_up_03.xbm/><tx>"
-                                     , "-w", "6"
-                                     , "-c", "·"
-                                     , "-S", "True"
-                                     , "-L", "500000" -- 500KB/s
-                                     , "-H", "1000000" -- 1000KB/s
-                                     , "-h", "#FFB6B0"
-                                     , "-n", "#FFFFCC"] 10
-                    , Run Date "%a %b %_d %l:%M%P" "date" 10
-                    , Run StdinReader
-                    ]
-       , sepChar = "%"
-       , alignSep = "}{"
-       , template = "%StdinReader%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {%vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%weather%</action> | "
-       }
+Config
+  { font = "xft:Terminus (TTF)"
+  , iconRoot = ".config/xmobar/icons"
+  , bgColor = "black"
+  , fgColor = "gray"
+  , position = TopSize L 95 18
+  , commands =
+      [ Run CommandReader "$HOME/.config/xmobar/weather.py" "weather"
+      , Run CommandReader "$HOME/.config/xmobar/volmon.py" "vmon"
+      , Run
+          CommandReader
+          "$HOME/.config/xmobar/arch-updates-mon.py"
+          "archupdates"
+--      , Run Com "/home/dbarbs/scripts/gdq_game" [] "gdq" 600
+      , Run
+          Cpu
+          [ "-t"
+          , "<icon=cpu.xbm/> <total>%"
+          , "-m"
+          , "2"
+          , "-L"
+          , "50"
+          , "-H"
+          , "75"
+          , "-n"
+          , "#FFFFCC"
+          , "-h"
+          , "#FFB6B0"
+          ]
+          10
+      , Run
+          Memory
+          [ "-t"
+          , "<icon=mem.xbm/> <usedratio>%"
+          , "-L"
+          , "50"
+          , "-H"
+          , "75"
+          , "-n"
+          , "#FFFFCC"
+          , "-h"
+          , "#FFB6B0"
+          ]
+          10
+      , Run
+          DynNetwork
+          [ "-t"
+          , "<icon=net_down_03.xbm/><rx><icon=net_up_03.xbm/><tx>"
+          , "-w"
+          , "6"
+          , "-c"
+          , "·"
+          , "-S"
+          , "True"
+          , "-L"
+          , "500000" -- 500KB/s
+          , "-H"
+          , "1000000" -- 1000KB/s
+          , "-h"
+          , "#FFB6B0"
+          , "-n"
+          , "#FFFFCC"
+          ]
+          10
+      , Run Date "%a %b %_d %l:%M%P" "date" 10
+      , Run StdinReader
+      ]
+  , sepChar = "%"
+  , alignSep = "}{"
+  , template
+--      "%StdinReader%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {<icon=controller.xbm/> %gdq% | %vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%weather%</action> | "
+     =
+      "%StdinReader%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {%vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%weather%</action> | "
+  }

@@ -11,6 +11,7 @@ import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.Reflect (REFLECTX(..))
 import XMonad.Layout.Renamed (Rename(..), renamed)
 import XMonad.Layout.Spacing (Border(..), SpacingModifier(..), spacingRaw)
+import XMonad.Layout.ThreeColumns (ThreeCol(..))
 import XMonad.Operations (rescreen)
 import XMonad.Prompt (XPConfig(..))
 import XMonad.Prompt.ConfirmPrompt (confirmPrompt)
@@ -19,7 +20,11 @@ import XMonad.Util.WindowProperties (getProp32)
 
 import StatusBar
 
-myLayoutHook = (mkToggle (single REFLECTX) tall) ||| Mirror tall ||| Full
+myLayoutHook =
+  (mkToggle (single REFLECTX) tall) |||
+  Mirror tall |||
+  ThreeCol 1 (3 / 100) (1 / 2) |||
+  (renamed [Append "Mid"] $ ThreeColMid 1 (3 / 100) (1 / 2)) ||| Full
   where
     tall =
       renamed [CutWordsLeft 1] -- Cut the "Spaced" from the layout name
@@ -46,7 +51,8 @@ myManageHook =
 conf =
   EWMH.ewmh $
   def
-    { terminal = "urxvtc -e ~/launch-tmux.sh"
+      --terminal = "urxvtc -e ~/launch-tmux.sh"
+    { terminal = "gnome-terminal"
     , layoutHook = smartBorders myLayoutHook
     , manageHook = myManageHook <+> (manageHook def)
     , modMask = mod4Mask

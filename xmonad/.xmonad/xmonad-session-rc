@@ -34,7 +34,7 @@ if [[ -d ~/.config/autostart ]]; then
     /usr/bin/dex ~/.config/autostart/*
 fi
 
-xfce4-power-manager
+xfce4-power-manager --daemon
 
 
 urxvtd -q -f -o
