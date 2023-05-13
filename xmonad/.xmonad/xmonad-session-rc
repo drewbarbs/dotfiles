@@ -42,8 +42,6 @@ urxvtd -q -f -o
 # picom will read from config file at ~/.config/picom.conf
 /usr/bin/picom -b
 
-/usr/bin/numlockx &
-
 # Set the pointer cursor
 /usr/bin/xsetroot -cursor_name left_ptr
 export PATH=$PATH:$HOME/.local/bin

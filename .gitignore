@@ -2,6 +2,7 @@
 *.hi
 *.errors
 *-x86_64-linux
+stack.yaml.lock
 __pycache__/
 .stack-work/
 prompt-history

@@ -1,10 +1,10 @@
 -- -*- mode: haskell -*-
 Config
-  { font = "xft:Terminus (TTF)"
+  { font = "Terminus Regular 14"
   , iconRoot = ".config/xmobar/icons"
   , bgColor = "black"
   , fgColor = "gray"
-  , position = TopSize L 95 18
+  , position = TopSize L 95 20
   , commands =
       [ Run CommandReader "$HOME/.config/xmobar/weather.py" "weather"
       , Run CommandReader "$HOME/.config/xmobar/volmon.py" "vmon"
@@ -64,12 +64,12 @@ Config
           ]
           10
       , Run Date "%a %b %_d %l:%M%P" "date" 10
-      , Run StdinReader
+      , Run XMonadLog
       ]
   , sepChar = "%"
   , alignSep = "}{"
   , template
 --      "%StdinReader%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {<icon=controller.xbm/> %gdq% | %vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%weather%</action> | "
      =
-      "%StdinReader%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {%vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%weather%</action> | "
+      "%XMonadLog%} <action=`gnome-calendar` button=1><fc=#ee9a00>%date%</fc></action> {%vmon% | %archupdates% | <action=`gnome-system-monitor` button=1>%cpu%%memory%%dynnetwork%</action> | <action=`gnome-weather` button=1>%weather%</action> | "
   }

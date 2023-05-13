@@ -4,7 +4,7 @@ import Data.Monoid (All(..), mconcat)
 import Graphics.X11.Xrandr (xrrSelectInput)
 import System.Exit (ExitCode(..), exitWith)
 import qualified XMonad.Hooks.EwmhDesktops as EWMH
-import XMonad.Hooks.ManageDocks (ToggleStruts(..), docksStartupHook)
+import XMonad.Hooks.ManageDocks (ToggleStruts(..))
 import XMonad.Hooks.Place (inBounds, placeHook, underMouse)
 import XMonad.Layout.MultiToggle (Toggle(..), mkToggle, single)
 import XMonad.Layout.NoBorders (smartBorders)
@@ -49,7 +49,7 @@ myManageHook =
 
 -- XMonad configuration *without* xmobar-related items
 conf =
-  EWMH.ewmh $
+  EWMH.ewmhFullscreen . EWMH.ewmh $
   def
       --terminal = "urxvtc -e ~/launch-tmux.sh"
     { terminal = "gnome-terminal"
@@ -60,7 +60,7 @@ conf =
         mconcat [startupHook def, setFullscreenSupported, registerForXRREvents]
     , clientMask = (clientMask def) .|. rrScreenChangeNotifyMask
     , handleEventHook =
-        mconcat [handleEventHook def, xrrHook, EWMH.fullscreenEventHook]
+        mconcat [handleEventHook def, xrrHook]
     } `additionalKeysP`
   [ ( "M-p"
     , spawn "rofi -modi combi,window,ssh -show combi -combi-modi drun,run")
@@ -68,7 +68,6 @@ conf =
   , ("M-S-m", spawn "emacsclient -c")
   , ("M-S-l", spawn "xscreensaver-command -lock")
   , ("M-S-/", spawn ("echo -e " ++ show help ++ " | xmessage -file -"))
-  , ("M-b", sendMessage ToggleStruts)
   , ( "M-g"
     , mconcat
         [ sendMessage $ ModifyScreenBorderEnabled not
@@ -76,12 +75,8 @@ conf =
         ])
   , ("M-S-b", spawn "killall -s SIGUSR1 xmobar")
   , ( "M-S-q"
-    , confirmPrompt
-        (def {font = "-misc-fixed-*-*-*-*-20-*-*-*-*-*-*-*", height = 60})
-        "exit" $
-      io (exitWith ExitSuccess))
+    , confirmPrompt (def {height = 60}) "exit" $ io (exitWith ExitSuccess))
   , ("M-x r", rescreen)
-  , ("M-x d", docksStartupHook)
   , ("M-x f", sendMessage $ Toggle REFLECTX)
   , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
   -- Turn output on if it's off, otherwise bump volume
@@ -94,7 +89,7 @@ conf =
   ]
 
 main :: IO ()
-main = xmonad =<< myStatusBar conf
+main = xmonad $ myStatusBar conf
 
 help :: String
 help =
@@ -128,16 +123,16 @@ help =
     , "mod-Shift-j  Swap the focused window with the next window"
     , "mod-Shift-k  Swap the focused window with the previous window"
     , ""
-    , "-- resizing the master/slave ratio"
-    , "mod-h  Shrink the master area"
-    , "mod-l  Expand the master area"
+    , "-- resizing the primary/secondary ratio"
+    , "mod-h  Shrink the primary area"
+    , "mod-l  Expand the primary area"
     , ""
     , "-- floating layer support"
     , "mod-t  Push window back into tiling; unfloat and re-tile it"
     , ""
-    , "-- increase or decrease number of windows in the master area"
-    , "mod-comma  (mod-,)   Increment the number of windows in the master area"
-    , "mod-period (mod-.)   Deincrement the number of windows in the master area"
+    , "-- increase or decrease number of windows in the primary area"
+    , "mod-comma  (mod-,)   Increment the number of windows in the primary area"
+    , "mod-period (mod-.)   Deincrement the number of windows in the primary area"
     , ""
     , "-- quit, or restart"
     , "mod-Shift-q  Quit xmonad"
@@ -166,7 +161,6 @@ help =
     , ""
     , "-- Debug"
     , "mod-x r       xmonad \"rescreen\""
-    , "mod-x d       recompute dock struts"
     ]
 
 -- Add _NET_WM_STATE_FULLSCREEN to the _NET_SUPPORTED property of the
