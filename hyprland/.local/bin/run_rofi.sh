@@ -2,4 +2,4 @@
 
 export PATH=$PATH:$HOME/.local/bin
 
-exec wofi "$@"
+exec rofi "$@"
