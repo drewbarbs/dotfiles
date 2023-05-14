@@ -1,9 +1,0 @@
-! -*- mode: conf-xdefaults; -*-
-! corresponds to the rofi -monitor option, start on currently focused monitor
-rofi.m: -4
-rofi.kb-remove-word-back: Alt+BackSpace
-rofi.kb-remove-word-forward: Alt+d
-! unbind default row tab
-rofi.kb-row-tab:
-rofi.kb-mode-next: Tab
-

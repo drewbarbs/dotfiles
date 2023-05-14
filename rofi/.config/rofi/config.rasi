@@ -1,0 +1,4 @@
+configuration {
+  kb-remove-word-back: "Alt+BackSpace";
+  kb-remove-word-forward: "Alt+d";
+}
