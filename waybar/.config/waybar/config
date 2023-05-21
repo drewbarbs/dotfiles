@@ -7,12 +7,23 @@
     // Choose the order of the modules
     "modules-left": ["wlr/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "tray"],
+    "modules-right": ["idle_inhibitor",
+                      "custom/separator", "custom/media",
+                      "custom/separator", "pulseaudio",
+                      "custom/separator", "custom/arch-updates",
+                      "custom/separator", "cpu", "memory", "network",
+                      "custom/separator", "custom/weather",
+                      "custom/separator", "tray"],
     "wlr/workspaces": {
         "on-click": "activate"
     },
+    "hyprland/window": {
+        "max-length": 100
+    },
     "idle_inhibitor": {
         "format": "{icon}",
+        "tooltip-format-activated": "Idle monitor inhibited",
+        "tooltip-format-deactivated": "Idle monitor not inhibited",        
         "format-icons": {
             "activated": "",
             "deactivated": ""
@@ -24,32 +35,50 @@
     },
     "clock": {
        "format": "{:%a %b %d %I:%M%p}",
-       "tooltip-format": "<tt>{calendar}</tt>"
+       "tooltip": true,
+       "tooltip-format": "<tt>{calendar}</tt>",
+       "calendar": {
+           "format": {
+               "months":     "<span color='#ffead3'><b>{}</b></span>",
+               "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+               "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+               "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+               "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+           }
+       }
     },
     "cpu": {
-        "format": "{usage}% ",
+        "format": "<span weight=\"light\"></span> {usage}%",
+        "states": {
+            "low": 0,
+            "medium": 40,
+            "high": 75
+        },
         "tooltip": false
     },
     "memory": {
-        "format": "{}% "
+        "format": "<span weight=\"light\"></span> {}%",
+        "states": {
+            "low": 0,
+            "medium": 40,
+            "high": 75
+        }
     },
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
+        "interval": 2,
+        "format": "{bandwidthDownBytes:>2} {bandwidthUpBytes:>2}",
         "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "tooltip-format-wifi": "{ifname} via {gwaddr}\n{essid} ({signalStrength}%) ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}% {format_source}",
+        "format-bluetooth-muted": "{icon}  {format_source}",
+        "format-muted": "<span color=\"#ffb6b0\"></span> {format_source}",
         "format-icons": {
             "headphone": "",
             "hands-free": "",
@@ -67,10 +96,30 @@
         "max-length": 40,
         "format-icons": {
             "spotify": "",
+            "mpv": "",            
             "default": "🎜"
         },
-        "escape": true,
+//        "escape": true,
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+    "custom/weather": {
+        "exec": "$HOME/.config/waybar/weather.py",
+        "on-click": "gnome-weather",
+        "return-type": "json"
+    },
+    "custom/separator": {
+        "format": "|",
+        "interval": "once",
+        "tooltip": false
+    },
+    "custom/arch-updates": {
+        "format": "<span color=\"gray\">{icon}</span>{}",
+        "return-type": "json",
+        "format-icons": {
+            "error": " ",
+            "available": " ",
+            "up-to-date": ""
+        },
+        "exec": "$HOME/.config/waybar/arch-updates-mon.py"
     }
 }

@@ -1,37 +1,19 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 13px;
+    font-family: FontAwesome, Terminus;
+    font-size: 14px;
 }
 
 window#waybar {
-    background-color: rgba(43, 48, 59, 0.5);
+    background-color: rgba(0, 0, 0, 1);
     border-bottom: 3px solid rgba(100, 114, 125, 0.5);
-    color: #ffffff;
     transition-property: background-color;
     transition-duration: .5s;
 }
 
-window#waybar.hidden {
-    opacity: 0.2;
-}
-
-/*
-window#waybar.empty {
-    background-color: transparent;
-}
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
-*/
-
-window#waybar.termite {
-    background-color: #3F3F3F;
-}
-
-window#waybar.chromium {
-    background-color: #000000;
-    border: none;
+/* Window title, from hyprland/window module */
+#window {
+    color: #ffb6b0;
 }
 
 button {
@@ -51,7 +33,7 @@ button:hover {
 #workspaces button {
     padding: 0 5px;
     background-color: transparent;
-    color: #ffffff;
+    color: gray;
 }
 
 #workspaces button:hover {
@@ -59,8 +41,7 @@ button:hover {
 }
 
 #workspaces button.active {
-    background-color: #64727D;
-    box-shadow: inset 0 -3px #ffffff;
+    color: #ceffac;
 }
 
 #workspaces button.urgent {
@@ -72,18 +53,16 @@ button:hover {
     border-bottom: 3px solid #ffffff;
 }
 
-#clock,
+#tray,
+#idle_inhibitor,
+#weather {
+    padding: 0 10px;
+}
+
 #cpu,
 #memory,
-#network,
-#pulseaudio,
-#wireplumber,
-#custom-media,
-#tray,
-#mode,
-#idle_inhibitor {
-    padding: 0 10px;
-    color: #ffffff;
+#network {
+    padding: 0 5px;
 }
 
 #window,
@@ -92,7 +71,7 @@ button:hover {
 }
 
 #clock {
-    /* background-color: #64727D; */
+    color: #ee9a00;
 }
 
 
@@ -107,66 +86,46 @@ label:focus {
     background-color: #000000;
 }
 
-#cpu {
-    background-color: #2ecc71;
-    color: #000000;
+#cpu, #memory {
+    color: gray;
 }
 
-#memory {
-    background-color: #9b59b6;
+#cpu.medium, #memory.medium {
+    color: #ffffcc;
+}
+
+#cpu.high, #memory.high {
+    color: #ffb6b0;
 }
 
 #network {
-    background-color: #2980b9;
+    color: gray;
+}
+
+#network.low {
+    color: red;
 }
 
 #network.disconnected {
     background-color: #f53c3c;
 }
 
-#pulseaudio {
-    background-color: #f1c40f;
-    color: #000000;
-}
-
-#pulseaudio.muted {
-    background-color: #90b1b1;
-    color: #2a5c45;
-}
-
-#wireplumber {
-    background-color: #fff0f5;
-    color: #000000;
-}
-
-#wireplumber.muted {
-    background-color: #f53c3c;
-}
-
 #custom-media {
-    background-color: #66cc99;
-    color: #2a5c45;
-    min-width: 100px;
 }
 
 #custom-media.custom-spotify {
-    background-color: #66cc99;
+    color: #ceffac;
 }
 
 #custom-media.custom-vlc {
-    background-color: #ffa000;
+    color: #ffa000;
 }
 
-#temperature {
-    background-color: #f0932b;
-}
-
-#temperature.critical {
-    background-color: #eb4d4b;
+#custom-media.custom-mpv {
+    color: #c3ace7;
 }
 
 #tray {
-    background-color: #2980b9;
 }
 
 #tray > .passive {
@@ -179,7 +138,7 @@ label:focus {
 }
 
 #idle_inhibitor {
-    background-color: #2d3436;
+    color: gray;
 }
 
 #idle_inhibitor.activated {
@@ -187,34 +146,28 @@ label:focus {
     color: #2d3436;
 }
 
-#language {
-    background: #00b093;
-    color: #740864;
+#pulseaudio {
+    color: gray;
+}
+
+#custom-weather {
     padding: 0 5px;
-    margin: 0 5px;
-    min-width: 16px;
+    color: gray;
 }
 
-#keyboard-state {
-    background: #97e1ad;
-    color: #000000;
-    padding: 0 0px;
-    margin: 0 5px;
-    min-width: 16px;
+#custom-separator {
+  color: gray;
+  margin: 0 5px;
 }
 
-#keyboard-state > label {
-    padding: 0 5px;
+#custom-arch-updates {
+    color: gray;
 }
 
-#keyboard-state > label.locked {
-    background: rgba(0, 0, 0, 0.2);
+#custom-arch-updates.available {
+    color: #ceffac;
 }
 
-#scratchpad {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-#scratchpad.empty {
-	background-color: transparent;
+#custom-arch-updates.error {
+    color: #ffb6b0;
 }
