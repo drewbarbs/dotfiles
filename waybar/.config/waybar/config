@@ -1,3 +1,4 @@
+// -*- mode: javascript -*-
 {
     "layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar position (top|bottom|left|right)
@@ -13,6 +14,7 @@
                       "custom/separator", "custom/arch-updates",
                       "custom/separator", "cpu", "memory", "network",
                       "custom/separator", "custom/weather",
+                      "custom/separator", "custom/notification",
                       "custom/separator", "tray"],
     "wlr/workspaces": {
         "on-click": "activate"
@@ -23,7 +25,7 @@
     "idle_inhibitor": {
         "format": "{icon}",
         "tooltip-format-activated": "Idle monitor inhibited",
-        "tooltip-format-deactivated": "Idle monitor not inhibited",        
+        "tooltip-format-deactivated": "Idle monitor not inhibited",
         "format-icons": {
             "activated": "",
             "deactivated": ""
@@ -34,18 +36,18 @@
         "spacing": 10
     },
     "clock": {
-       "format": "{:%a %b %d %I:%M%p}",
-       "tooltip": true,
-       "tooltip-format": "<tt>{calendar}</tt>",
-       "calendar": {
-           "format": {
-               "months":     "<span color='#ffead3'><b>{}</b></span>",
-               "days":       "<span color='#ecc6d9'><b>{}</b></span>",
-               "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-               "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
-               "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
-           }
-       }
+        "format": "{:%a %b %d %I:%M %p}",
+        "tooltip": true,
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        }
     },
     "cpu": {
         "format": "<span weight=\"light\"></span> {usage}%",
@@ -66,7 +68,7 @@
     },
     "network": {
         "interval": 2,
-        "format": "{bandwidthDownBytes:>2} {bandwidthUpBytes:>2}",
+        "format": " {bandwidthDownBytes:>2}  {bandwidthUpBytes:>2}",
         "format-ethernet": "{ipaddr}/{cidr} ",
         "tooltip-format": "{ifname} via {gwaddr}",
         "tooltip-format-wifi": "{ifname} via {gwaddr}\n{essid} ({signalStrength}%) ",
@@ -93,16 +95,18 @@
     "custom/media": {
         "format": "{icon} {}",
         "return-type": "json",
+        "escape": true,
         "max-length": 40,
         "format-icons": {
             "spotify": "",
-            "mpv": "",            
+            "mpv": "",
+            "firefox": "",
             "default": "🎜"
         },
-//        "escape": true,
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
     },
     "custom/weather": {
+        "format": "{}",
         "exec": "$HOME/.config/waybar/weather.py",
         "on-click": "gnome-weather",
         "return-type": "json"
@@ -121,5 +125,25 @@
             "up-to-date": ""
         },
         "exec": "$HOME/.config/waybar/arch-updates-mon.py"
+    },
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{} {icon}",
+        "format-icons": {
+            "notification": "<span foreground='red'><sup></sup></span>",
+            "none": "",
+            "dnd-notification": "<span foreground='red'><sup></sup></span>",
+            "dnd-none": "",
+            "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+            "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
     }
 }

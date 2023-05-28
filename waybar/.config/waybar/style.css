@@ -117,8 +117,8 @@ label:focus {
     color: #ceffac;
 }
 
-#custom-media.custom-vlc {
-    color: #ffa000;
+#custom-media.custom-vlc, #custom-media.custom-firefox {
+    color: #ee9000;
 }
 
 #custom-media.custom-mpv {
@@ -170,4 +170,16 @@ label:focus {
 
 #custom-arch-updates.error {
     color: #ffb6b0;
+}
+
+#custom-notification {
+    font-family: "NotoSansMono Nerd Font";
+    color: gray;
+}
+
+#custom-notification.notification,
+#custom-notification.dnd-notification,
+#custom-notification.inhibited-notification,
+#custom-notification.dnd-inhibited-notification {
+    color: white;
 }
