@@ -91,7 +91,7 @@ def main():
     GLib.io_add_watch(sys.stdout, GLib.PRIORITY_DEFAULT,
                       GLib.IO_HUP | GLib.IO_ERR, lambda *args: loop.quit())
 
-    print('Updating...', flush=True)
+    print(json.dumps({'text': 'Updating...'}), flush=True)
 
     manager = bus.get_object('org.freedesktop.GeoClue2',
                              '/org/freedesktop/GeoClue2/Manager')
@@ -130,11 +130,4 @@ def main():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--pango', default=False, action='store_true')
-
-    args = parser.parse_args()
-    if args.pango:
-        FORMAT = 'pango'
-
     main()
