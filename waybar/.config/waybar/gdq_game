@@ -1,0 +1,9 @@
+#!/bin/bash
+
+GDQ_UID=22510310
+
+curl -X GET \
+  -H "Authorization: Bearer $(jq -r .token ~/.chatty/login)" \
+  -H "Client-Id: spyiu9jqdnfjtwv6l1xjk5zgt8qb91l" \
+  "https://api.twitch.tv/helix/channels?broadcaster_id=${GDQ_UID}" 2>/dev/null \
+  | jq -c '.data[0] | {text: .game_name}'

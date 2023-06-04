@@ -9,6 +9,7 @@
     "modules-left": ["wlr/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
     "modules-right": ["idle_inhibitor",
+                      // "custom/separator", "custom/gdq",
                       "custom/separator", "custom/media",
                       "custom/separator", "pulseaudio",
                       "custom/separator", "custom/arch-updates",
@@ -91,6 +92,18 @@
             "default": ["", "", ""]
         },
         "on-click": "pavucontrol"
+    },
+    "custom/gdq": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "interval": 20,
+        "on-click": "hyprctl dispatch focuswindow mpv",
+        "escape": true,
+        "max-length": 40,
+        "format-icons": {
+            "default": " "
+        },
+        "exec": "$HOME/.config/waybar/gdq_game"
     },
     "custom/media": {
         "format": "{icon} {}",
