@@ -1,0 +1,6 @@
+[Unit]
+Description=Run a command to poll for AUR updates
+
+[Service]
+Type=oneshot
+ExecStart=%h/dotfiles/arch/checkaur

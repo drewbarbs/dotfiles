@@ -1,0 +1,13 @@
+[Unit]
+Description=Run script to check for AUR updates
+PartOf=graphical-session.target
+
+[Timer]
+OnActiveSec=120
+# run once a day, at 6pm
+OnCalendar=*-*-* 18:00:00
+Persistent=true
+Unit=checkaur.service
+
+[Install]
+WantedBy=graphical-session.target
