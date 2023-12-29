@@ -17,3 +17,5 @@
         default = simple
 [protocol "file"]
 	allow = always
+[color]
+	ui = auto
