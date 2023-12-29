@@ -25,9 +25,10 @@ def color_text(text, color):
 
 def update_weather(latitude, longitude):
     update = {}
-    resp = requests.get(
-        f'https://api.weather.gov/points/{latitude:.4f},{longitude:.4f}')
+    points_url = f'https://api.weather.gov/points/{latitude:.4f},{longitude:.4f}'
+    resp = requests.get(points_url)
     if not resp.ok or 'properties' not in (resp_obj := json.loads(resp.text)):
+        update['tooltip'] = f'Error fetching/processing {points_url}:\n{resp.text}'
         update['text'] = 'Failed to fetch gridpoints'
         update['class'] = 'error'
     else:
@@ -40,7 +41,8 @@ def update_weather(latitude, longitude):
 
         resp = requests.get(hrly_forecast_url)
         if not resp.ok or 'properties' not in (resp_obj := json.loads(resp.text)):
-            update['text'] = 'Failed to fetch gridpoints'
+            update['tooltip'] = f'Error fetching/processing {hrly_forecast_url}:\n{resp.text}'
+            update['text'] = 'Failed to fetch forecast'
             update['class'] = 'error'
         else:
             forecast = json.loads(resp.text)['properties']
