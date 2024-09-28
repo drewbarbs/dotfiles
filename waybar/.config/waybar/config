@@ -69,16 +69,16 @@
     },
     "network": {
         "interval": 2,
-        "format": " {bandwidthDownBytes:>2}  {bandwidthUpBytes:>2}",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr}",
-        "tooltip-format-wifi": "{ifname} via {gwaddr}\n{essid} ({signalStrength}%) ",
+        "format": " {bandwidthDownBytes:>2}  {bandwidthUpBytes:>2}    ",
+        "format-ethernet": " {bandwidthDownBytes:>2}  {bandwidthUpBytes:>2} ",
+        "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}",
+        "tooltip-format-wifi": "{ifname} via {gwaddr}\n{essid} ({signalStrength}%) \n{ipaddr}/{cidr}",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
-        "format": "{icon} {volume}%",
+        "format": "{icon}  {volume}%",
         "format-bluetooth": "{icon} {volume}% {format_source}",
         "format-bluetooth-muted": "{icon}  {format_source}",
         "format-muted": "<span color=\"#ffb6b0\"></span> {format_source}",
@@ -94,7 +94,7 @@
         "on-click": "pavucontrol"
     },
     "custom/gdq": {
-        "format": "{icon} {}",
+        "format": "{icon} {0}",
         "return-type": "json",
         "interval": 20,
         "on-click": "hyprctl dispatch focuswindow mpv",
@@ -106,7 +106,7 @@
         "exec": "$HOME/.config/waybar/gdq_game"
     },
     "custom/media": {
-        "format": "{icon} {}",
+        "format": "{icon} {0}",
         "return-type": "json",
         "escape": true,
         "max-length": 40,
@@ -130,7 +130,7 @@
         "tooltip": false
     },
     "custom/arch-updates": {
-        "format": "<span color=\"gray\">{icon}</span>{}",
+        "format": "<span color=\"gray\">{icon}</span>{0}",
         "return-type": "json",
         "format-icons": {
             "error": " ",
@@ -141,7 +141,7 @@
     },
     "custom/notification": {
         "tooltip": false,
-        "format": "{} {icon}",
+        "format": "{0} {icon}",
         "format-icons": {
             "notification": "<span foreground='red'><sup></sup></span>",
             "none": "",
@@ -155,7 +155,7 @@
         "return-type": "json",
         "exec-if": "which swaync-client",
         "exec": "swaync-client -swb",
-        "on-click": "swaync-client -t -sw",
+        "on-click": "sleep 0.1 && swaync-client -t -sw",
         "on-click-right": "swaync-client -d -sw",
         "escape": true
     }
