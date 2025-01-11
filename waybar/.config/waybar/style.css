@@ -1,6 +1,6 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, Terminus;
+    font-family: Terminus, "Font Awesome 6 Free";
     font-size: 14px;
 }
 
@@ -116,6 +116,10 @@ label:focus {
 
 
 #custom-media {
+}
+
+#custom-media.custom-none {
+    color: gray;
 }
 
 #custom-media.custom-spotify {

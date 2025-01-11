@@ -11,6 +11,14 @@ from gi.repository import Playerctl, GLib
 logger = logging.getLogger(__name__)
 
 
+def clear_status():
+    print(json.dumps({
+        "text": "<no media>",
+        "class": "custom-none",
+        "alt": "none"
+    }), flush=True)
+
+
 def write_output(text, player):
     logger.info('Writing output')
 
@@ -18,8 +26,7 @@ def write_output(text, player):
               'class': 'custom-' + player.props.player_name,
               'alt': player.props.player_name}
 
-    sys.stdout.write(json.dumps(output) + '\n')
-    sys.stdout.flush()
+    print(json.dumps(output), flush=True)
 
 
 def on_play(player, status, manager):
@@ -55,8 +62,7 @@ def on_player_appeared(manager, player, selected_player=None):
 
 def on_player_vanished(manager, player):
     logger.info('Player has vanished')
-    sys.stdout.write('\n')
-    sys.stdout.flush()
+    clear_status()
 
 
 def init_player(manager, name):
@@ -70,8 +76,7 @@ def init_player(manager, name):
 
 def signal_handler(sig, frame):
     logger.debug('Received signal to stop, exiting')
-    sys.stdout.write('\n')
-    sys.stdout.flush()
+    clear_status()
     # loop.quit()
     sys.exit(0)
 
@@ -82,8 +87,8 @@ def parse_arguments():
     # Increase verbosity with every occurrence of -v
     parser.add_argument('-v', '--verbose', action='count', default=0)
 
-    # Define for which player we're listening
-    parser.add_argument('--player')
+    # Define for which player(s) we're listening
+    parser.add_argument('--player', help="Player(s) to listen for, comma-separated. E.g. 'spotify,mpv'")
 
     return parser.parse_args()
 
@@ -113,14 +118,14 @@ def main():
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
     for player in manager.props.player_names:
-        if arguments.player is not None and arguments.player != player.name:
+        if arguments.player is not None and player.name not in arguments.player.split(','):
             logger.debug('{player} is not the filtered player, skipping it'
-                         .format(player=player.name)
-                         )
+                         .format(player=player.name))
             continue
 
         init_player(manager, player)
 
+    clear_status()
     loop.run()
 
 

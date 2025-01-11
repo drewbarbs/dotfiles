@@ -51,7 +51,7 @@
         }
     },
     "cpu": {
-        "format": "<span weight=\"light\"></span> {usage}%",
+        "format": " {usage}%",
         "states": {
             "low": 0,
             "medium": 40,
@@ -60,7 +60,7 @@
         "tooltip": false
     },
     "memory": {
-        "format": "<span weight=\"light\"></span> {}%",
+        "format": " {}%",
         "states": {
             "low": 0,
             "medium": 40,
@@ -69,7 +69,7 @@
     },
     "network": {
         "interval": 2,
-        "format": " {bandwidthDownBytes:>2}  {bandwidthUpBytes:>2}    ",
+        "format": " {bandwidthDownBytes:>2}  {bandwidthUpBytes:>2} ",
         "format-ethernet": " {bandwidthDownBytes:>2}  {bandwidthUpBytes:>2} ",
         "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}",
         "tooltip-format-wifi": "{ifname} via {gwaddr}\n{essid} ({signalStrength}%) \n{ipaddr}/{cidr}",
@@ -78,7 +78,7 @@
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
-        "format": "{icon}  {volume}%",
+        "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}% {format_source}",
         "format-bluetooth-muted": "{icon}  {format_source}",
         "format-muted": "<span color=\"#ffb6b0\"></span> {format_source}",
@@ -97,7 +97,7 @@
         "format": "{icon} {0}",
         "return-type": "json",
         "interval": 20,
-        "on-click": "hyprctl dispatch focuswindow mpv",
+        "on-click": "hyprctl dispatch focuswindow class:mpv",
         "escape": true,
         "max-length": 40,
         "format-icons": {
@@ -114,9 +114,10 @@
             "spotify": "",
             "mpv": "",
             "firefox": "",
+            "none": "",
             "default": "🎜"
         },
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+        "exec": "$HOME/.config/waybar/mediaplayer.py --player mpv,spotify 2> /dev/null" // Script in resources folder
     },
     "custom/weather": {
         "format": "{}",
@@ -130,7 +131,7 @@
         "tooltip": false
     },
     "custom/arch-updates": {
-        "format": "<span color=\"gray\">{icon}</span>{0}",
+        "format": "<span font='14'>{icon}</span>{0}",
         "return-type": "json",
         "format-icons": {
             "error": " ",
